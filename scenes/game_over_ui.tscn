@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7f2i3i4covj3"]
+
+[ext_resource type="Script" uid="uid://xn77sd08te02" path="res://scripts/game_over_ui.gd" id="1_y6ord"]
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="2_lk38d"]
+
+[sub_resource type="GDScript" id="GDScript_y6ord"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass
+"
+
+[node name="GameOverUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_y6ord")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.046
+anchor_top = 0.046
+anchor_right = 0.949
+anchor_bottom = 0.957
+offset_left = 13.008
+offset_top = 18.192
+offset_right = -13.248
+offset_bottom = -18.136
+color = Color(0, 0.159238, 0.314242, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 403.0
+offset_top = 225.0
+offset_right = 746.0
+offset_bottom = 296.0
+theme_override_fonts/font = ExtResource("2_lk38d")
+theme_override_font_sizes/font_size = 70
+text = "Game Over"
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 484.0
+offset_top = 320.0
+offset_right = 675.0
+offset_bottom = 413.0
+theme_override_fonts/font = ExtResource("2_lk38d")
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+script = SubResource("GDScript_y6ord")
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

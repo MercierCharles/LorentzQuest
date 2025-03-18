@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://03a1ef2dh6up"]
+
+[ext_resource type="Script" uid="uid://cxpgtd2khv3lu" path="res://scripts/proton.gd" id="1_l5ru5"]
+[ext_resource type="Texture2D" uid="uid://djvexgtus8bmg" path="res://assets/sprites/proton.png" id="2_l5ru5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l5ru5"]
+radius = 58.5491
+
+[node name="Proton" type="CharacterBody2D"]
+script = ExtResource("1_l5ru5")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.238281, 0.234375)
+texture = ExtResource("2_l5ru5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 5
+shape = SubResource("CircleShape2D_l5ru5")
