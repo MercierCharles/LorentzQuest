@@ -7,6 +7,7 @@
 radius = 84.0
 
 [node name="ProtonLev2" type="RigidBody2D"]
+z_index = 2
 script = ExtResource("1_c0jji")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

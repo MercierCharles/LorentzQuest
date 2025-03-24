@@ -1,0 +1,127 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpwvn1pbypbld"]
+
+[ext_resource type="Script" uid="uid://bhk3s0yo57byh" path="res://scripts/win_scene.gd" id="1_aw8vk"]
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="2_ecqtd"]
+[ext_resource type="Texture2D" uid="uid://bcwmgly7fh7nk" path="res://assets/sprites/star_full.png" id="3_7yt3q"]
+[ext_resource type="Texture2D" uid="uid://bxfcyhs43wmij" path="res://assets/sprites/star_outline.png" id="4_b6ng8"]
+
+[sub_resource type="GDScript" id="GDScript_y6ord"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass
+"
+
+[node name="WinSceneUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_aw8vk")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.046
+anchor_top = 0.046
+anchor_right = 0.949
+anchor_bottom = 0.957
+offset_left = 13.008
+offset_top = 18.192
+offset_right = -13.248
+offset_bottom = -18.136
+color = Color(0, 0.159238, 0.314242, 1)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 316.0
+offset_top = 104.0
+offset_right = 834.0
+offset_bottom = 175.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 70
+text = "Level Completed"
+
+[node name="RestartButton" type="Button" parent="."]
+offset_left = 784.0
+offset_top = 395.0
+offset_right = 975.0
+offset_bottom = 488.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 30
+text = "Restart"
+script = SubResource("GDScript_y6ord")
+
+[node name="MenuButton" type="Button" parent="."]
+offset_left = 483.0
+offset_top = 396.0
+offset_right = 674.0
+offset_bottom = 489.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 30
+text = "Menu"
+script = SubResource("GDScript_y6ord")
+
+[node name="NextLevelButton" type="Button" parent="."]
+offset_left = 186.0
+offset_top = 395.0
+offset_right = 377.0
+offset_bottom = 488.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 30
+text = "Next Level"
+script = SubResource("GDScript_y6ord")
+
+[node name="WinLabel" type="Label" parent="."]
+offset_left = 182.0
+offset_top = 225.0
+offset_right = 586.0
+offset_bottom = 282.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 30
+text = "WinLabel"
+
+[node name="StarLabel" type="Label" parent="."]
+offset_left = 178.0
+offset_top = 316.0
+offset_right = 919.0
+offset_bottom = 380.0
+theme_override_fonts/font = ExtResource("2_ecqtd")
+theme_override_font_sizes/font_size = 30
+text = "StarLabel"
+
+[node name="StarFull" type="Sprite2D" parent="."]
+position = Vector2(704, 241)
+scale = Vector2(0.390625, 0.359375)
+texture = ExtResource("3_7yt3q")
+
+[node name="StarOutline" type="Sprite2D" parent="."]
+position = Vector2(702, 238)
+scale = Vector2(0.118, 0.1)
+texture = ExtResource("4_b6ng8")
+
+[node name="StarFull2" type="Sprite2D" parent="."]
+position = Vector2(816, 239)
+scale = Vector2(0.390625, 0.359375)
+texture = ExtResource("3_7yt3q")
+
+[node name="StarOutline2" type="Sprite2D" parent="."]
+position = Vector2(816, 238)
+scale = Vector2(0.118, 0.1)
+texture = ExtResource("4_b6ng8")
+
+[node name="StarFull3" type="Sprite2D" parent="."]
+position = Vector2(931, 239)
+scale = Vector2(0.390625, 0.359375)
+texture = ExtResource("3_7yt3q")
+
+[node name="StarOutline3" type="Sprite2D" parent="."]
+position = Vector2(931, 238)
+scale = Vector2(0.118, 0.1)
+texture = ExtResource("4_b6ng8")
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="MenuButton" to="." method="_on_menu_button_pressed"]
+[connection signal="pressed" from="NextLevelButton" to="." method="_on_next_level_button_pressed"]

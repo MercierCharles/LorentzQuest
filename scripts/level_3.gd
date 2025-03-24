@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var h_slider_angle: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderAngle
 @onready var h_slider_norm: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderNorm
-@onready var proton_lev_2: RigidBody2D = $ProtonLev2
+@onready var electron_lev_3: RigidBody2D = $ElectronLev3
 @onready var finish_line: Area2D = $FinishLine
 @onready var time_label: Label = $CanvasLayer/TimeLabel
 @onready var win_scene_ui: CanvasLayer = $WinSceneUI
@@ -60,7 +60,7 @@ func _on_slider_changed(_value):
 	var angle = h_slider_angle.value  
 	var electric_field = Vector2(FIELD_SCALE * intensity, 0).rotated(angle)
 	
-	proton_lev_2.set_electric_field(electric_field)
+	electron_lev_3.set_electric_field(electric_field)
 	_update_arrows()  
 
 func _update_arrows():
@@ -72,8 +72,8 @@ func _update_arrows():
 
 func _on_level_completed():
 	is_running = false  # Arrête le compteur
-	await get_tree().create_timer(0.5).timeout 
-	get_tree().paused = true  
+	await get_tree().create_timer(0.5).timeout  
+	get_tree().paused = true 
 	win_scene_ui.visible = true  
 
 	# Affichage du temps final

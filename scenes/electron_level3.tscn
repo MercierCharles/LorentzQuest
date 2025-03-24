@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://cc3xi2oqqsp1"]
+
+[ext_resource type="Script" uid="uid://cn3lamcuemckv" path="res://scripts/electron_level_3.gd" id="1_mwltb"]
+[ext_resource type="Texture2D" uid="uid://b6wsvawq4ye6" path="res://assets/sprites/electron.png" id="2_mwltb"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c0jji"]
+radius = 84.0
+
+[node name="ElectronLev3" type="RigidBody2D"]
+z_index = 2
+script = ExtResource("1_mwltb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.34375, 0.34375)
+texture = ExtResource("2_mwltb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c0jji")

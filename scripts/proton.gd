@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal hit_electron  # Signal émis lors de la collision avec un électron
+
 const SPEED = 600.0
 
 func _physics_process(delta: float) -> void:
@@ -9,20 +11,13 @@ func _physics_process(delta: float) -> void:
 	)
 
 	if direction.length() > 0:
-		direction = direction.normalized()  # Normalise le vecteur directionnel
+		direction = direction.normalized()
 		velocity = direction * SPEED
 	else:
-		velocity = Vector2.ZERO  # Arrêt progressif
+		velocity = Vector2.ZERO
 
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		var collider = collision.get_collider()
 		if collider.is_in_group("electrons"):
-			game_over()
-			
-@onready var game_over_ui: CanvasLayer = $"../GameOverUI"
-
-func game_over():
-	print("Game Over!")  # Debugging
-	get_tree().paused = true  # Pause game on loss
-	game_over_ui.visible = true  # Show the Game Over UI
+			hit_electron.emit()  # Émettre le signal au lieu d'appeler game_over()
