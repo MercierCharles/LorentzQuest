@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var h_slider_angle: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderAngle
-@onready var h_slider_norm: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderNorm
-@onready var proton_lev_2: RigidBody2D = $ProtonLev2
+@onready var h_slider: HSlider = $CanvasLayer/Sliders/HSlider
+@onready var proton: RigidBody2D = $ProtonLev4
 @onready var finish_line: Area2D = $FinishLine
-@onready var time_label: Label = $CanvasLayer/TimeLabel
+@onready var theory_ui: CanvasLayer = $TheoryUI
+@onready var play_button: Button = $TheoryUI/PlayButton
 @onready var win_scene_ui: CanvasLayer = $WinSceneUI
 @onready var game_over_ui: CanvasLayer = $GameOverUI
 @onready var fail_label: Label = $GameOverUI/FailLabel
@@ -14,88 +14,98 @@ extends Node2D
 @onready var star_1: Sprite2D = $WinSceneUI/StarFull
 @onready var star_2: Sprite2D = $WinSceneUI/StarFull2
 @onready var star_3: Sprite2D = $WinSceneUI/StarFull3
-@onready var theory_ui: CanvasLayer = $TheoryUI
-@onready var play_button: Button = $TheoryUI/PlayButton
+@onready var time_label: Label = $CanvasLayer/TimeLabel
 
 const GRID_SPACING = 400.0  
 const FIELD_SCALE = 150.0  
-const ARROW_SCENE = preload("res://scenes/arrow_2d.tscn")  
+const SYMBOL_SCENE = preload("res://scenes/magnetic_field_symbol_2d.tscn")  
 
-var arrows = []  
+var symbols = []  
 var elapsed_time = 0.0  
 var is_running = true  
 
 func _ready():
-	h_slider_norm.value_changed.connect(_on_slider_changed)
-	h_slider_angle.value_changed.connect(_on_slider_changed)
-	_generate_arrows()
+	h_slider.min_value = -10.0  # Negative values → field "in"
+	h_slider.max_value = 10.0   # Positive values → field "out"
+	h_slider.value = 0.0       # Start at center (zero field)
+
+	h_slider.value_changed.connect(_on_slider_changed)
+	_generate_symbols()
 	finish_line.level_completed.connect(_on_level_completed)
 
-	# Masquer les étoiles au début
-	star_1.visible = false
-	star_2.visible = false
-	star_3.visible = false
-	
 	if GameState.entering_from_menu:
-		GameState.has_seen_theory_level2 = false  
-		GameState.entering_from_menu = false  # Reset this flag
-	
-	# Show theory only if it hasn't been seen
-	if GameState.has_seen_theory_level2:
+		GameState.has_seen_theory_level4 = false  
+		GameState.entering_from_menu = false  
+
+	if GameState.has_seen_theory_level4:
 		theory_ui.visible = false
-		get_tree().paused = false  # Start game immediately
+		get_tree().paused = false  
 		is_running = true
 	else:
 		theory_ui.visible = true
 		theory_ui.process_mode = Node.PROCESS_MODE_ALWAYS
-		get_tree().paused = true  # Pause until player presses Play
+		get_tree().paused = true  
 
 func _process(delta):
 	if is_running:
 		elapsed_time += delta
 		time_label.text = "Time: %.2f s" % elapsed_time
 
-func _generate_arrows():
+	# ✅ Adjust slider using left/right arrows
+	var slider_step = 0.5  # Adjust sensitivity
+	if Input.is_action_pressed("ui_right"):
+		h_slider.value = min(h_slider.max_value, h_slider.value + slider_step)
+	elif Input.is_action_pressed("ui_left"):
+		h_slider.value = max(h_slider.min_value, h_slider.value - slider_step)
+
+
+func _generate_symbols():
 	var level_size = Vector2(18000, 2500)  
 	var start_x = -level_size.x / 2
 	var start_y = -level_size.y / 2
 
 	for x in range(int(start_x), int(level_size.x / 2), int(GRID_SPACING)):
 		for y in range(int(start_y), int(level_size.y / 2), int(GRID_SPACING)):
-			var arrow = ARROW_SCENE.instantiate()
-			arrow.global_position = Vector2(x, y)  
-			add_child(arrow)
-			arrows.append(arrow)
+			var symbol = SYMBOL_SCENE.instantiate()
+			symbol.global_position = Vector2(x, y)  
+			symbol.set_direction("out" if randi() % 2 == 0 else "in")  # Random "out" or "in"
+			add_child(symbol)
+			symbols.append(symbol)
 
-	_update_arrows()
+	_update_symbols()
 
 func _on_slider_changed(_value):
 	queue_redraw()  
 
-	var intensity = h_slider_norm.value * 20  
-	var angle = h_slider_angle.value  
-	var electric_field = Vector2(FIELD_SCALE * intensity, 0).rotated(angle)
-	
-	proton_lev_2.set_electric_field(electric_field)
-	_update_arrows()  
+	var intensity = h_slider.value * 2.0  # Keep it as a float
 
-func _update_arrows():
-	var intensity = h_slider_norm.value
-	var angle = h_slider_angle.value
+	# ✅ Fix: Pass a float instead of a Vector3
+	proton.set_magnetic_field(intensity)
 
-	for arrow in arrows:
-		arrow.update_arrow(intensity, angle, FIELD_SCALE)
+	_update_symbols()
+
+func _update_symbols():
+	var intensity = h_slider.value  
+	var scale_factor = abs(intensity)  # , absolute value to avoid negative scaling
+
+	# Determine the field direction based on slider value
+	var direction = "out" if intensity > 0 else "in" if intensity < 0 else "none"
+
+	for symbol in symbols:
+		symbol.set_field_scale(scale_factor)
+		if direction != "none":
+			symbol.set_direction(direction)  # Update the direction dynamically
 
 func _on_level_completed():
-	is_running = false  # Arrête le compteur
+	is_running = false  # Stop the timer
 	await get_tree().create_timer(0.5).timeout 
 	get_tree().paused = true  
 	win_scene_ui.visible = true  
 
-	# Affichage du temps final
+	# Display final time
 	win_label.text = "Time: %.2f s" % elapsed_time
 
-	# 🌟 Attribution des étoiles en fonction du temps
+	# 🌟 Assign stars based on time
 	if elapsed_time > 60.0:
 		game_over()
 	elif elapsed_time >= 45.0:
@@ -118,9 +128,8 @@ func game_over():
 	lost_label.text = "Time: %.2f s" % elapsed_time
 	fail_label.text = "Time to complete the level : 60 s"
 
-
 func _on_play_button_pressed() -> void:
-	GameState.has_seen_theory_level2 = true  # Mark theory as seen
+	GameState.has_seen_theory_level4 = true  # Mark theory as seen
 	theory_ui.visible = false
 	get_tree().paused = false  # Unpause the game
 	is_running = true  # Start the game

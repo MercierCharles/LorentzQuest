@@ -1,18 +1,18 @@
-[gd_scene load_steps=13 format=3 uid="uid://1qcmfjow1vci"]
+[gd_scene load_steps=13 format=3 uid="uid://ctlfg31hv2vi0"]
 
-[ext_resource type="Script" uid="uid://canxku8w2a473" path="res://scripts/level_3.gd" id="1_rupth"]
-[ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="2_6qt4k"]
-[ext_resource type="Script" uid="uid://bmmbys6uq34cq" path="res://scripts/camera_2d_level_3.gd" id="3_rupth"]
-[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_bradm"]
-[ext_resource type="Texture2D" uid="uid://d2sbhafd0ckyr" path="res://assets/sprites/vec_E.png" id="6_6qt4k"]
-[ext_resource type="Script" uid="uid://d2uue7q6ppugl" path="res://scripts/control_sliders.gd" id="6_got4s"]
-[ext_resource type="PackedScene" uid="uid://colny87jym4du" path="res://scenes/finish_line.tscn" id="7_e40mx"]
-[ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="8_a114e"]
-[ext_resource type="PackedScene" uid="uid://cc3xi2oqqsp1" path="res://scenes/electron_level3.tscn" id="9_rupth"]
-[ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="9_y1e0c"]
+[ext_resource type="Script" uid="uid://cv5n0ini5bnuo" path="res://scripts/level_4.gd" id="1_5tkub"]
+[ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="2_jvphm"]
+[ext_resource type="Script" uid="uid://di58k82pmc42j" path="res://scripts/camera_2d_level_4.gd" id="3_0wxwt"]
+[ext_resource type="Texture2D" uid="uid://bmbrdlivx46og" path="res://assets/sprites/vec_B.png" id="5_5tkub"]
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_8f67t"]
+[ext_resource type="PackedScene" uid="uid://colny87jym4du" path="res://scenes/finish_line.tscn" id="8_ivevn"]
+[ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="9_j8vkp"]
+[ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="10_oykdx"]
+[ext_resource type="Texture2D" uid="uid://dp3sb5dibutrx" path="res://assets/sprites/MagneticFieldEq.png" id="11_5tkub"]
+[ext_resource type="PackedScene" uid="uid://y34ajx57mv3b" path="res://scenes/proton_level4.tscn" id="11_jvphm"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_if4l3"]
-texture = ExtResource("2_6qt4k")
+texture = ExtResource("2_jvphm")
 separation = Vector2i(1, 1)
 0:0/0 = 0
 1:0/0 = 0
@@ -447,7 +447,7 @@ sources/0 = SubResource("TileSetAtlasSource_if4l3")
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(2, -4)
-script = ExtResource("1_rupth")
+script = ExtResource("1_5tkub")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_4038r")
@@ -462,102 +462,112 @@ limit_left = -8576
 limit_top = -100000000
 limit_right = 8640
 limit_bottom = 100000000
-script = ExtResource("3_rupth")
+script = ExtResource("3_0wxwt")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Sliders" type="Node" parent="CanvasLayer"]
 
-[node name="LabelAngle" type="Label" parent="CanvasLayer/Sliders"]
-offset_left = 742.0
-offset_top = 607.0
-offset_right = 898.0
-offset_bottom = 668.0
-theme_override_fonts/font = ExtResource("5_bradm")
-theme_override_font_sizes/font_size = 35
-text = "Direction"
-metadata/_edit_use_anchors_ = true
-
-[node name="LabelNorm" type="Label" parent="CanvasLayer/Sliders"]
-offset_left = 816.0
-offset_top = 572.0
-offset_right = 909.0
-offset_bottom = 618.0
-theme_override_fonts/font = ExtResource("5_bradm")
-theme_override_font_sizes/font_size = 35
-text = "Norm"
-metadata/_edit_use_anchors_ = true
-
-[node name="ControlSliders" type="Control" parent="CanvasLayer/Sliders"]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -55.0
-offset_top = -2.0
-offset_right = -15.0
-offset_bottom = 38.0
-script = ExtResource("6_got4s")
-metadata/_edit_use_anchors_ = true
-
-[node name="HSliderAngle" type="HSlider" parent="CanvasLayer/Sliders/ControlSliders"]
-custom_minimum_size = Vector2(0, 20)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.3
-anchor_top = 1.1
-anchor_right = 0.3
-anchor_bottom = 1.1
-offset_left = 958.0
-offset_top = 570.0
-offset_right = 1118.0
-offset_bottom = 594.0
-max_value = 6.28
-step = 0.01
-metadata/_edit_use_anchors_ = true
-
-[node name="HSliderNorm" type="HSlider" parent="CanvasLayer/Sliders/ControlSliders"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.0630005
-anchor_top = 1.25
-anchor_right = 0.0630005
-anchor_bottom = 1.25
-offset_left = 965.48
-offset_top = 527.0
-offset_right = 1126.48
-offset_bottom = 556.0
-grow_horizontal = 2
-grow_vertical = 2
-max_value = 1.0
-step = 0.001
-metadata/_edit_use_anchors_ = true
-
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Sliders"]
-offset_left = 1098.0
-offset_top = 576.0
-offset_right = 1135.0
-offset_bottom = 627.0
-texture = ExtResource("6_6qt4k")
+offset_left = 933.0
+offset_top = 577.0
+offset_right = 970.0
+offset_bottom = 630.0
+texture = ExtResource("5_5tkub")
 expand_mode = 1
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer/Sliders"]
+offset_left = 984.0
+offset_top = 603.0
+offset_right = 1131.0
+offset_bottom = 619.0
+step = 0.5
 
 [node name="TimeLabel" type="Label" parent="CanvasLayer"]
 offset_left = 23.0
 offset_top = 18.0
 offset_right = 342.0
 offset_bottom = 82.0
-theme_override_fonts/font = ExtResource("5_bradm")
+theme_override_fonts/font = ExtResource("5_8f67t")
 theme_override_font_sizes/font_size = 30
 text = "Time : 0 s"
 
-[node name="FinishLine" parent="." instance=ExtResource("7_e40mx")]
+[node name="FinishLine" parent="." instance=ExtResource("8_ivevn")]
 position = Vector2(7886, 5)
 rotation = 1.5708
 scale = Vector2(9.65, 9.65)
 
-[node name="WinSceneUI" parent="." instance=ExtResource("8_a114e")]
+[node name="WinSceneUI" parent="." instance=ExtResource("9_j8vkp")]
 visible = false
 
-[node name="GameOverUI" parent="." instance=ExtResource("9_y1e0c")]
+[node name="GameOverUI" parent="." instance=ExtResource("10_oykdx")]
 visible = false
 
-[node name="ElectronLev3" parent="." instance=ExtResource("9_rupth")]
-position = Vector2(-8205, 2)
+[node name="TheoryUI" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="TheoryUI"]
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 1137.0
+offset_bottom = 638.0
+color = Color(0, 0.160784, 0.313726, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="TheoryUI"]
+offset_left = 387.0
+offset_top = 38.0
+offset_right = 767.0
+offset_bottom = 89.0
+theme_override_fonts/font = ExtResource("5_8f67t")
+theme_override_font_sizes/font_size = 50
+text = "Magnetic Field"
+metadata/_edit_use_anchors_ = true
+
+[node name="Theory" type="Label" parent="TheoryUI"]
+offset_left = 62.0
+offset_top = 126.0
+offset_right = 1086.0
+offset_bottom = 531.0
+theme_override_fonts/font = ExtResource("5_8f67t")
+theme_override_font_sizes/font_size = 30
+text = "If a charge q has a velocity v in a magnetic field  B, it experiences a 
+force :
+
+
+
+This force is thus perpendicular to the velocity and to the magnetic field
+
+Now, use the arrows right/left to control the norm of the magnetic field 
+
+Get the proton to the finish line in less than 60 s"
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="TheoryUI"]
+anchors_preset = -1
+anchor_left = -0.103299
+anchor_top = -0.0138889
+anchor_right = -0.0755213
+anchor_bottom = -0.00617284
+offset_left = 506.0
+offset_top = 182.0
+offset_right = 779.0
+offset_bottom = 256.0
+texture = ExtResource("11_5tkub")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayButton" type="Button" parent="TheoryUI"]
+offset_left = 475.0
+offset_top = 537.0
+offset_right = 652.0
+offset_bottom = 624.0
+theme_override_fonts/font = ExtResource("5_8f67t")
+theme_override_font_sizes/font_size = 40
+text = "Play"
+metadata/_edit_use_anchors_ = true
+
+[node name="ProtonLev4" parent="." instance=ExtResource("11_jvphm")]
+position = Vector2(-8238, 6)
+
+[connection signal="pressed" from="TheoryUI/PlayButton" to="." method="_on_play_button_pressed"]

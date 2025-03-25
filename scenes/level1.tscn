@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bhafkkckqipsk"]
+[gd_scene load_steps=11 format=3 uid="uid://bhafkkckqipsk"]
 
 [ext_resource type="Script" uid="uid://bjbigbt731mx8" path="res://scripts/level_1.gd" id="1_6sh32"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="1_dwgg1"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="4_ejswk"]
 [ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_ru4tf"]
 [ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="7_ejswk"]
+[ext_resource type="Texture2D" uid="uid://tklq2s4yuebo" path="res://assets/sprites/CoulombForceEq.png" id="8_bbk5w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6sh32"]
 texture = ExtResource("1_dwgg1")
@@ -466,3 +467,66 @@ theme_override_font_sizes/font_size = 30
 text = "Time : 0 s"
 
 [node name="WinSceneUI" parent="." instance=ExtResource("7_ejswk")]
+visible = false
+
+[node name="TheoryUI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="TheoryUI"]
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 1137.0
+offset_bottom = 638.0
+color = Color(0, 0.160784, 0.313726, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="TheoryUI"]
+offset_left = 387.0
+offset_top = 38.0
+offset_right = 767.0
+offset_bottom = 89.0
+theme_override_fonts/font = ExtResource("5_ru4tf")
+theme_override_font_sizes/font_size = 50
+text = "Coulomb's Force"
+metadata/_edit_use_anchors_ = true
+
+[node name="Theory" type="Label" parent="TheoryUI"]
+offset_left = 62.0
+offset_top = 126.0
+offset_right = 1086.0
+offset_bottom = 531.0
+theme_override_fonts/font = ExtResource("5_ru4tf")
+theme_override_font_sizes/font_size = 30
+text = "Coulomb’s force describes the interaction between two electric charges.
+ It is given by the formula :
+
+
+
+Where F is the force between the charges
+k is Coulomb’s constant 
+q1 and q2 are the charges
+r is the distance between the charges
+
+Now, use the arrows to avoid getting hit by the electrons.
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="TheoryUI"]
+offset_left = 398.0
+offset_top = 212.0
+offset_right = 671.0
+offset_bottom = 286.0
+texture = ExtResource("8_bbk5w")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayButton" type="Button" parent="TheoryUI"]
+offset_left = 475.0
+offset_top = 521.0
+offset_right = 652.0
+offset_bottom = 608.0
+theme_override_fonts/font = ExtResource("5_ru4tf")
+theme_override_font_sizes/font_size = 40
+text = "Play"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="TheoryUI/PlayButton" to="." method="_on_play_button_pressed"]

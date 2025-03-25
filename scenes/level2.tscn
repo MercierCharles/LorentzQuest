@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://nor1alx1qs7u"]
+[gd_scene load_steps=14 format=3 uid="uid://nor1alx1qs7u"]
 
 [ext_resource type="Script" uid="uid://1rpvelcqsggd" path="res://scripts/level_2.gd" id="1_4038r"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="1_d6fun"]
@@ -7,8 +7,10 @@
 [ext_resource type="Script" uid="uid://bpmblgxgsc3dw" path="res://scripts/camera_2d_level_2.gd" id="4_6ep0u"]
 [ext_resource type="Script" uid="uid://d2uue7q6ppugl" path="res://scripts/control_sliders.gd" id="5_alqfr"]
 [ext_resource type="PackedScene" uid="uid://colny87jym4du" path="res://scenes/finish_line.tscn" id="7_6ep0u"]
+[ext_resource type="Texture2D" uid="uid://d2sbhafd0ckyr" path="res://assets/sprites/vec_E.png" id="7_76toy"]
 [ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="8_hrcei"]
 [ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="8_xa7n4"]
+[ext_resource type="Texture2D" uid="uid://dxytklnj4wmfd" path="res://assets/sprites/ElectricFieldEq.png" id="10_bo4dx"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_if4l3"]
 texture = ExtResource("1_d6fun")
@@ -471,20 +473,20 @@ script = ExtResource("4_6ep0u")
 [node name="Sliders" type="Node" parent="CanvasLayer"]
 
 [node name="LabelAngle" type="Label" parent="CanvasLayer/Sliders"]
-offset_left = 799.0
-offset_top = 605.0
-offset_right = 955.0
-offset_bottom = 666.0
+offset_left = 750.0
+offset_top = 608.0
+offset_right = 906.0
+offset_bottom = 669.0
 theme_override_fonts/font = ExtResource("4_2k3dv")
 theme_override_font_sizes/font_size = 35
 text = "Direction"
 metadata/_edit_use_anchors_ = true
 
 [node name="LabelNorm" type="Label" parent="CanvasLayer/Sliders"]
-offset_left = 873.0
-offset_top = 570.0
-offset_right = 966.0
-offset_bottom = 616.0
+offset_left = 824.0
+offset_top = 573.0
+offset_right = 917.0
+offset_bottom = 619.0
 theme_override_fonts/font = ExtResource("4_2k3dv")
 theme_override_font_sizes/font_size = 35
 text = "Norm"
@@ -493,10 +495,10 @@ metadata/_edit_use_anchors_ = true
 [node name="ControlSliders" type="Control" parent="CanvasLayer/Sliders"]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 2.0
-offset_top = -4.0
-offset_right = 42.0
-offset_bottom = 36.0
+offset_left = -47.0
+offset_top = -1.0
+offset_right = -7.0
+offset_bottom = 39.0
 script = ExtResource("5_alqfr")
 metadata/_edit_use_anchors_ = true
 
@@ -533,6 +535,14 @@ max_value = 1.0
 step = 0.001
 metadata/_edit_use_anchors_ = true
 
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Sliders"]
+offset_left = 1098.0
+offset_top = 575.0
+offset_right = 1135.0
+offset_bottom = 628.0
+texture = ExtResource("7_76toy")
+expand_mode = 1
+
 [node name="TimeLabel" type="Label" parent="CanvasLayer"]
 offset_left = 23.0
 offset_top = 18.0
@@ -552,3 +562,70 @@ visible = false
 
 [node name="GameOverUI" parent="." instance=ExtResource("8_xa7n4")]
 visible = false
+
+[node name="TheoryUI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="TheoryUI"]
+offset_left = 17.0
+offset_top = 9.0
+offset_right = 1137.0
+offset_bottom = 638.0
+color = Color(0, 0.160784, 0.313726, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="TheoryUI"]
+offset_left = 387.0
+offset_top = 38.0
+offset_right = 767.0
+offset_bottom = 89.0
+theme_override_fonts/font = ExtResource("4_2k3dv")
+theme_override_font_sizes/font_size = 50
+text = "Electric Field"
+metadata/_edit_use_anchors_ = true
+
+[node name="Theory" type="Label" parent="TheoryUI"]
+offset_left = 62.0
+offset_top = 126.0
+offset_right = 1086.0
+offset_bottom = 531.0
+theme_override_fonts/font = ExtResource("4_2k3dv")
+theme_override_font_sizes/font_size = 30
+text = "If a charge q is placed in an electric field E, it experiences a force :
+
+
+
+A positive charge moves in the direction of E, while a negative charge
+moves opposite to it.
+
+Now, use the arrows to control the electric field and get the proton to 
+the finish line in less than 60 s
+
+up/down to vary the norm of the field
+right/left to vary its direction"
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="TheoryUI"]
+anchors_preset = -1
+anchor_left = -0.103299
+anchor_top = -0.0138889
+anchor_right = -0.103299
+anchor_bottom = -0.0138889
+offset_left = 492.0
+offset_top = 180.0
+offset_right = 765.0
+offset_bottom = 254.0
+texture = ExtResource("10_bo4dx")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayButton" type="Button" parent="TheoryUI"]
+offset_left = 475.0
+offset_top = 537.0
+offset_right = 652.0
+offset_bottom = 624.0
+theme_override_fonts/font = ExtResource("4_2k3dv")
+theme_override_font_sizes/font_size = 40
+text = "Play"
+metadata/_edit_use_anchors_ = true
+
+[connection signal="pressed" from="TheoryUI/PlayButton" to="." method="_on_play_button_pressed"]

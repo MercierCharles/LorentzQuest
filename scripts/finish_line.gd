@@ -1,5 +1,4 @@
 extends Area2D
-@onready var timer: Timer = $Timer
 
 signal level_completed  # Signal to notify when the level is completed
 
