@@ -281,6 +281,7 @@ func _update_arrows():
 		arrow.update_arrow(intensity, angle, FIELD_SCALE)
 
 func _spawn_next_section():
+	_create_transformation_line(100)
 	# Sélection aléatoire d'une section différente de la précédente
 	var available_indices = range(SECTION_SCENES.size())
 	if last_section_index != -1:
@@ -336,70 +337,38 @@ func _transform_player():
 	var intensity = h_slider_norm.value * 20
 	var angle = h_slider_angle.value
 	var electric_field = Vector2(FIELD_SCALE * intensity, 0).rotated(angle)
-	
+
+	# Supprimer tous les scripts de caméra liés
+	for child in proton_lev_2.get_children():
+		if child is Camera2D:
+			child.queue_free()
+
+	# Transformer le node en "proton" ou "électron" selon son état actuel
 	if is_electron:
-		# Transformer l'électron en proton
-		var proton = load("res://scenes/proton_lev2.tscn").instantiate()
-		proton.global_position = current_position
-		proton.linear_velocity = current_linear_velocity
-		add_child(proton)
-		
-		# Supprimer l'ancien électron mais garder la référence pour le nœud proton
-		var old_electron = proton_lev_2
-		proton_lev_2 = proton
-		
-		# Supprimer tous les scripts de caméra qui pourraient être présents dans le nouveau proton
-		for child in proton_lev_2.get_children():
-			if child is Camera2D:
-				child.queue_free()
-		
-		# Supprimer l'électron
-		old_electron.queue_free()
-		
-		# Appliquer le champ électrique
+		# CONFIGURATION POUR PROTON
+		proton_lev_2._set_as_proton()  # You must define this in your script
 		proton_lev_2.set_electric_field(electric_field)
-		
-		# Ajouter notre caméra externe au proton
-		if camera_node and camera_node.get_parent() != proton_lev_2:
-			if camera_node.get_parent():
-				camera_node.get_parent().remove_child(camera_node)
-			proton_lev_2.add_child(camera_node)
-		
 		is_electron = false
 	else:
-		# Transformer le proton en électron
-		var electron = ELECTRON_SCENE.instantiate()
-		electron.global_position = current_position
-		electron.linear_velocity = current_linear_velocity
-		add_child(electron)
-		
-		# Supprimer l'ancien proton mais garder la référence pour le nœud électron
-		var old_proton = proton_lev_2
-		proton_lev_2 = electron
-		
-		# Supprimer tous les scripts de caméra qui pourraient être présents dans le nouvel électron
-		for child in electron.get_children():
-			if child is Camera2D:
-				child.queue_free()
-		
-		# Supprimer le proton
-		old_proton.queue_free()
-		
-		# Appliquer le champ électrique (inversé pour l'électron)
+		# CONFIGURATION POUR ELECTRON
+		proton_lev_2._set_as_electron()  # You must define this in your script
 		proton_lev_2.set_electric_field(-electric_field)
-		
-		# Ajouter notre caméra externe à l'électron
-		if camera_node and camera_node.get_parent() != proton_lev_2:
-			if camera_node.get_parent():
-				camera_node.get_parent().remove_child(camera_node)
-			proton_lev_2.add_child(camera_node)
-		
 		is_electron = true
 	
-	# Modifier directement le script de la caméra pour pointer vers le nouveau nœud
+	# Remise en place des propriétés de mouvement
+	proton_lev_2.global_position = current_position
+	proton_lev_2.linear_velocity = current_linear_velocity
+	
+	# Ajouter notre caméra externe au node
+	if camera_node and camera_node.get_parent() != proton_lev_2:
+		if camera_node.get_parent():
+			camera_node.get_parent().remove_child(camera_node)
+		proton_lev_2.add_child(camera_node)
+	
+	# Mettre à jour la caméra pour suivre le bon node
 	if camera_node:
-		# Cette ligne accède au script de la caméra et modifie sa variable target
 		camera_node.set("target", proton_lev_2)
+
 
 func _check_section_generation():
 	# Supprimer les sections trop éloignées mais avec un seuil plus généreux
