@@ -66,6 +66,17 @@ theme_override_fonts/font = ExtResource("1_aeu7d")
 theme_override_font_sizes/font_size = 50
 text = "Level 5"
 
+[node name="Level6Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 355.0
+offset_right = 1111.0
+offset_bottom = 486.0
+theme_override_fonts/font = ExtResource("1_aeu7d")
+theme_override_font_sizes/font_size = 50
+text = "Level 6
+"
+
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
 offset_left = 291.0
@@ -81,3 +92,4 @@ text = "Lorentz Quest"
 [connection signal="pressed" from="Level3Button" to="." method="_on_level_3_button_pressed"]
 [connection signal="pressed" from="Level4Button" to="." method="_on_level_4_button_pressed"]
 [connection signal="pressed" from="Level5Button" to="." method="_on_level_5_button_pressed"]
+[connection signal="pressed" from="Level6Button" to="." method="_on_level_6_button_pressed"]

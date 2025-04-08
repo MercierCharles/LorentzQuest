@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://eeustin7jrff"]
+[gd_scene load_steps=5 format=3 uid="uid://eeustin7jrff"]
 
-[ext_resource type="Script" uid="uid://canxku8w2a473" path="res://scripts/level_3.gd" id="1_xowmw"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="2_uqcuf"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_r7xpd"]
@@ -443,7 +442,6 @@ pattern_0 = SubResource("TileMapPattern_r7xpd")
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(2, -4)
-script = ExtResource("1_xowmw")
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_4038r")

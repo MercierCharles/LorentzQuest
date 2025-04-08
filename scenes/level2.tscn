@@ -606,7 +606,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="TheoryUI"]
 anchors_preset = -1
-anchor_left = -0.0616319
+anchor_left = -0.103299
 anchor_top = -0.0138889
 anchor_right = -0.103299
 anchor_bottom = -0.0138889
