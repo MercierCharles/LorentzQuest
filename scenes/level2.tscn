@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://nor1alx1qs7u"]
+[gd_scene load_steps=16 format=3 uid="uid://nor1alx1qs7u"]
 
 [ext_resource type="Script" uid="uid://1rpvelcqsggd" path="res://scripts/level_2.gd" id="1_4038r"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="1_d6fun"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="8_hrcei"]
 [ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="8_xa7n4"]
 [ext_resource type="Texture2D" uid="uid://dxytklnj4wmfd" path="res://assets/sprites/ElectricFieldEq.png" id="10_bo4dx"]
+[ext_resource type="Texture2D" uid="uid://c76atoecf45b7" path="res://assets/sprites/joystickbackground.png" id="13_ve5ok"]
+[ext_resource type="Texture2D" uid="uid://dg3hsojfm6y5v" path="res://assets/sprites/JoystickKnob.png" id="14_cleqw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_if4l3"]
 texture = ExtResource("1_d6fun")
@@ -446,7 +448,7 @@ separation = Vector2i(1, 1)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_if4l3")
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 position = Vector2(2, -4)
 script = ExtResource("1_4038r")
 
@@ -535,6 +537,26 @@ max_value = 1.0
 step = 0.001
 metadata/_edit_use_anchors_ = true
 
+[node name="Joystick" type="Control" parent="CanvasLayer/Sliders/ControlSliders"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 49.0
+offset_top = -3.0
+offset_right = 89.0
+offset_bottom = 37.0
+
+[node name="JoystickBackground" type="TextureRect" parent="CanvasLayer/Sliders/ControlSliders/Joystick"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_ve5ok")
+
+[node name="JoystickKnob" type="TextureRect" parent="CanvasLayer/Sliders/ControlSliders/Joystick/JoystickBackground"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("14_cleqw")
+
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Sliders"]
 offset_left = 1098.0
 offset_top = 575.0
@@ -606,7 +628,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="TheoryUI"]
 anchors_preset = -1
-anchor_left = -0.0616319
+anchor_left = -0.103299
 anchor_top = -0.0138889
 anchor_right = -0.103299
 anchor_bottom = -0.0138889

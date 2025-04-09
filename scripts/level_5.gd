@@ -42,6 +42,7 @@ var path_start_index = 0  # Index du début du chemin visible
 var generated_symbols = {}  # Dictionnaire pour traquer les symboles générés par secteur
 var last_proton_grid_position = Vector2.ZERO  # Dernière position du proton pour la génération de symboles
 
+
 func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	h_slider.min_value = -10.0
@@ -150,11 +151,38 @@ func _generate_initial_path():
 	# Génération des premiers segments de chemin
 	_generate_path_segments(5)  # Générer 5 segments initiaux
 
+# Déclaration au niveau de la classe
+var cumulated_angle = 0.0  # Variable pour suivre l'angle cumulé du chemin
+
 func _generate_path_segments(count: int):
+	# La variable cumulated_angle est maintenant accessible directement
+	
 	for i in range(count):
 		var arc_radius = randf_range(MIN_RADIUS, MAX_RADIUS)
 		var arc_angle = randf_range(MIN_ANGLE, MAX_ANGLE)
 		var arc_clockwise = randi() % 2 == 0
+		
+		# Calculer l'effet de cet arc sur l'angle cumulé
+		var angle_delta = arc_angle * (-1 if arc_clockwise else 1)
+		var new_cumulated_angle = cumulated_angle + angle_delta
+		
+		# Vérifier si l'arc respecte la contrainte d'orientation
+		if new_cumulated_angle > PI/2 or new_cumulated_angle < -PI/2:
+			# Si l'arc fait dévier trop le chemin, inverser le sens ou réduire l'angle
+			arc_clockwise = !arc_clockwise
+			angle_delta = arc_angle * (-1 if arc_clockwise else 1)
+			new_cumulated_angle = cumulated_angle + angle_delta
+			
+			# Si même avec l'inversion, on dépasse les limites, réduire l'angle
+			if new_cumulated_angle > PI/2 or new_cumulated_angle < -PI/2:
+				# Calculer un angle qui respecte les limites
+				var max_allowed_delta = (PI/2 - cumulated_angle) if arc_clockwise else (-PI/2 - cumulated_angle)
+				arc_angle = abs(max_allowed_delta) * 0.9  # 90% de l'angle maximum pour éviter les limites exactes
+				angle_delta = arc_angle * (-1 if arc_clockwise else 1)
+				new_cumulated_angle = cumulated_angle + angle_delta
+		
+		# Mise à jour de l'angle cumulé
+		cumulated_angle = new_cumulated_angle
 		
 		# Calcul du centre garantissant la continuité
 		var arc_normal = last_direction.orthogonal() * (-1 if arc_clockwise else 1)

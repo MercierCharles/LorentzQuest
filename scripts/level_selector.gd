@@ -19,3 +19,8 @@ func _on_level_4_button_pressed() -> void:
 func _on_level_5_button_pressed() -> void:
 	GameState.entering_from_menu = true
 	get_tree().change_scene_to_file("res://scenes/level5.tscn")
+
+
+func _on_level_6_button_pressed() -> void:
+	GameState.entering_from_menu = true
+	get_tree().change_scene_to_file("res://scenes/level6.tscn")
