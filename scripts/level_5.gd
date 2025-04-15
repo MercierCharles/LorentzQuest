@@ -7,7 +7,6 @@ extends Node2D
 @onready var game_over_ui: CanvasLayer = $GameOverUI
 @onready var fail_label: Label = $GameOverUI/FailLabel
 @onready var lost_label: Label = $GameOverUI/LostLabel
-@onready var time_label: Label = $CanvasLayer/TimeLabel
 @onready var score_label: Label = $CanvasLayer/ScoreLabel
 
 const GRID_SPACING = 400.0  
@@ -44,6 +43,17 @@ var last_proton_grid_position = Vector2.ZERO  # Dernière position du proton pou
 
 
 func _ready():
+	var music
+	
+	if GameState.selected_artist == "Bad Bunny" :
+		music = load("res://assets/music/Bad Bunny/Volando (Remix).mp3")
+	elif GameState.selected_artist == "Morad" :
+		music = load("res://assets/music/Morad/MORAD - PELELE (AUDIO OFICIAL).mp3")
+	elif GameState.selected_artist == "Myke Towers" :
+		music = load("res://assets/music/Myke Towers/Myke Towers - Mírenme Ahora (Video Oficial).mp3")
+		
+	MusicPlayer.play_music(music)
+	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	h_slider.min_value = -10.0
 	h_slider.max_value = 10.0
@@ -66,7 +76,8 @@ func _ready():
 		theory_ui.visible = true
 		theory_ui.process_mode = Node.PROCESS_MODE_ALWAYS
 		get_tree().paused = true  
-
+	
+	
 	_initialize_proton()
 	score_label.text = "Score: 0"
 	
@@ -77,19 +88,24 @@ func _ready():
 	last_proton_grid_position = _get_grid_position(proton.global_position)
 	_ensure_symbols_around_proton()
 	
+	_update_symbols()
+	
 	queue_redraw()
+	
 
 var last_sec = 1
+
 func _process(delta):
 	if is_running:
 		elapsed_time += delta
-		time_label.text = "Time: %.2f s" % elapsed_time
 		
-		# Déplacement du slider avec les flèches
+		# Déplacement du slider avec les entrées
 		var slider_step = 0.5
-		if Input.is_action_pressed("ui_right"):
+		
+		# Gérer les entrées du D-Pad de la manette
+		if Input.is_action_pressed("slider_up"):
 			h_slider.value = min(h_slider.max_value, h_slider.value + slider_step)
-		elif Input.is_action_pressed("ui_left"):
+		elif Input.is_action_pressed("slider_down"):
 			h_slider.value = max(h_slider.min_value, h_slider.value - slider_step)
 		
 		# Vérification de la distance du proton par rapport au chemin
@@ -98,7 +114,6 @@ func _process(delta):
 		# Maintien de la vitesse constante
 		
 		if abs(elapsed_time-last_sec) < 0.1:
-			print(elapsed_time)
 			last_sec = last_sec + 1
 			var speed = proton.linear_velocity.length()
 			if speed > 0:
@@ -263,8 +278,8 @@ func _cleanup_old_segments():
 	# Suppression des segments et symboles qui sont loin derrière le joueur
 	var proton_pos = proton.global_position
 	
-	# Nettoyer les points du chemin
-	while path_points.size() > 2 and path_start_index < path_points.size() - 2:
+	# Nettoyer les points du chemin, mais toujours laisser au moins 10 points visibles
+	while path_points.size() > 12 and path_start_index < path_points.size() - 10:
 		if proton_pos.distance_to(path_points[path_start_index]) > CLEANUP_DISTANCE:
 			path_start_index += 1
 		else:
@@ -297,39 +312,36 @@ func _draw():
 		var outer_points_left = []
 		var outer_points_right = []
 		
-		
 		# Premier segment droit - création des lignes parallèles simples
-		if path_start_index == 0:  # Si on est toujours au début du chemin
-			# Dessiner directement les segments droits avec draw_line au lieu de stocker les points
-			# Segment supérieur (au lieu de outer_points_right)
-			draw_line(
-				Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
-				Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite),
-				Color.RED, RED_WIDTH, true  # true pour activer l'antialiasing
-			)
-			
-			# Segment inférieur (au lieu de outer_points_left)
-			draw_line(
-				Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
-				Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite),
-				Color.RED, RED_WIDTH, true
-			)
-			
-			# Segment vertical à gauche (déplacé ici pour regrouper les segments rectilignes)
-			draw_line(
-				Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
-				Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
-				Color.RED, RED_WIDTH, true
-			)
-			
-			# Ajouter quand même les points aux listes pour le reste du dessin (nécessaire pour la continuité)
-			outer_points_right.append(Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite))
-			outer_points_right.append(Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite))
-			outer_points_left.append(Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite))
-			outer_points_left.append(Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite))
-			
+		# Segment supérieur (au lieu de outer_points_right)
+		draw_line(
+			Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
+			Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite),
+			Color.RED, RED_WIDTH, true
+		)
+		
+		# Segment inférieur (au lieu de outer_points_left)
+		draw_line(
+			Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
+			Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite),
+			Color.RED, RED_WIDTH, true
+		)
+		
+		# Segment vertical à gauche
+		draw_line(
+			Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
+			Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
+			Color.RED, RED_WIDTH, true
+		)
+		
+		# Ajouter les points aux listes pour le reste du dessin
+		outer_points_right.append(Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite))
+		outer_points_right.append(Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite))
+		outer_points_left.append(Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite))
+		outer_points_left.append(Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite))
+		
 		# Pour le reste des points du chemin, utiliser la méthode existante
-		for i in range(max(1, path_start_index), visible_path_points.size()):
+		for i in range(1, visible_path_points.size()):
 			var normal = Vector2.ZERO
 			
 			if i == visible_path_points.size() - 1:
@@ -361,16 +373,12 @@ func _draw():
 		# Inverser l'ordre des points de droite
 		outer_points_right.reverse()
 		
-		# Si nous ne sommes pas au début du chemin, dessiner les polylines comme avant
-		if path_start_index > 0:
+		# Dessiner les lignes rouges extérieures si nous avons assez de points
+		if outer_points_left.size() > 2:
 			draw_polyline(outer_points_left, Color.RED, RED_WIDTH)
+		
+		if outer_points_right.size() > 2:
 			draw_polyline(outer_points_right, Color.RED, RED_WIDTH)
-		else:
-			# Sinon, dessiner seulement les parties courbes (ignorer les premiers segments déjà dessinés avec draw_line)
-			if outer_points_left.size() > 2:
-				draw_polyline(outer_points_left.slice(2), Color.RED, RED_WIDTH)
-			if outer_points_right.size() > 2:
-				draw_polyline(outer_points_right.slice(0, -2), Color.RED, RED_WIDTH)
 
 
 func _check_distance_from_path():
@@ -408,26 +416,33 @@ func _closest_point_on_segment(p: Vector2, a: Vector2, b: Vector2) -> Vector2:
 
 func _on_slider_changed(_value):
 	queue_redraw()  
-	var intensity = h_slider.value * 2.0  
+	var intensity = - h_slider.value * 2.0  
 	proton.set_magnetic_field(intensity)  
 	_update_symbols()
 
 func _update_symbols():
-	var intensity = h_slider.value  
+	var intensity = -h_slider.value  
 	var scale_factor = abs(intensity)
 	var direction = "out" if intensity > 0 else "in" if intensity < 0 else "none"
 	
 	for symbol in symbols:
-		symbol.set_field_scale(scale_factor)
-		if direction != "none":
+		if direction == "none":
+			# Cacher le symbole quand l'intensité est nulle
+			symbol.visible = false
+		else:
+			symbol.visible = true
+			symbol.set_field_scale(scale_factor)
 			symbol.set_direction(direction)
 
 func game_over():
 	is_running = false  
 	get_tree().paused = true  
+	#GameManager.on_level_completed("MagneticField", score)
+	if score > GameState.best_score_MagneticField :
+		GameState.best_score_MagneticField = score
 	game_over_ui.visible = true  
-	lost_label.text = "Time: %.2f s | Score: %d" % [elapsed_time, score]
-	fail_label.text = "T'es nul !"
+	lost_label.text = "Score: %d" % score
+	fail_label.text = "Record: %d" % GameState.best_score_MagneticField
 
 func _on_play_button_pressed() -> void:
 	GameState.has_seen_theory_level4 = true

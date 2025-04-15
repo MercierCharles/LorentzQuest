@@ -467,36 +467,29 @@ script = ExtResource("3_g54xt")
 [node name="Sliders" type="Node" parent="CanvasLayer"]
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Sliders"]
-offset_left = 933.0
-offset_top = 577.0
-offset_right = 970.0
-offset_bottom = 630.0
+offset_left = 1064.0
+offset_top = 549.0
+offset_right = 1101.0
+offset_bottom = 602.0
 texture = ExtResource("4_teump")
 expand_mode = 1
 
 [node name="HSlider" type="HSlider" parent="CanvasLayer/Sliders"]
-offset_left = 984.0
-offset_top = 603.0
-offset_right = 1131.0
-offset_bottom = 619.0
+offset_left = 1058.0
+offset_top = 525.0
+offset_right = 1205.0
+offset_bottom = 541.0
+rotation = -1.5708
+scale = Vector2(3, 3)
 step = 0.5
 
-[node name="TimeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 23.0
-offset_top = 18.0
-offset_right = 342.0
-offset_bottom = 82.0
-theme_override_fonts/font = ExtResource("5_oe7sd")
-theme_override_font_sizes/font_size = 30
-text = "Time : 0 s"
-
 [node name="ScoreLabel" type="Label" parent="CanvasLayer"]
-offset_left = 999.0
-offset_top = 12.0
-offset_right = 1140.0
-offset_bottom = 54.0
+offset_left = 21.0
+offset_top = 16.0
+offset_right = 162.0
+offset_bottom = 58.0
 theme_override_fonts/font = ExtResource("5_oe7sd")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 50
 text = "Score : 0 "
 
 [node name="WinSceneUI" parent="." instance=ExtResource("7_7h48i")]
@@ -506,7 +499,6 @@ visible = false
 visible = false
 
 [node name="TheoryUI" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="TheoryUI"]
 offset_left = 17.0
@@ -540,7 +532,8 @@ force :
 
 This force is thus perpendicular to the velocity and to the magnetic field
 
-Now, use the arrows right/left to control the norm of the magnetic field 
+Now, use the slider or the arrows to control the norm of the magnetic 
+field 
 
 Don't get out of the path !"
 metadata/_edit_use_anchors_ = true

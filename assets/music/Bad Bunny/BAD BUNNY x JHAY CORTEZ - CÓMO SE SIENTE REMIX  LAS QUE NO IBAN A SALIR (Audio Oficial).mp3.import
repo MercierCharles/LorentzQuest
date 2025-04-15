@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dx3xdc16ix07x"
+path="res://.godot/imported/BAD BUNNY x JHAY CORTEZ - CÓMO SE SIENTE REMIX  LAS QUE NO IBAN A SALIR (Audio Oficial).mp3-7eeb711e4328eb31f742740e346277dd.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Bad Bunny/BAD BUNNY x JHAY CORTEZ - CÓMO SE SIENTE REMIX  LAS QUE NO IBAN A SALIR (Audio Oficial).mp3"
+dest_files=["res://.godot/imported/BAD BUNNY x JHAY CORTEZ - CÓMO SE SIENTE REMIX  LAS QUE NO IBAN A SALIR (Audio Oficial).mp3-7eeb711e4328eb31f742740e346277dd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

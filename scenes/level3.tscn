@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://1qcmfjow1vci"]
+[gd_scene load_steps=15 format=3 uid="uid://brg1dokug11wo"]
 
 [ext_resource type="Script" uid="uid://canxku8w2a473" path="res://scripts/level_3.gd" id="1_rupth"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="2_6qt4k"]
@@ -6,6 +6,8 @@
 [ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_bradm"]
 [ext_resource type="Texture2D" uid="uid://d2sbhafd0ckyr" path="res://assets/sprites/vec_E.png" id="6_6qt4k"]
 [ext_resource type="Script" uid="uid://d2uue7q6ppugl" path="res://scripts/control_sliders.gd" id="6_got4s"]
+[ext_resource type="Texture2D" uid="uid://c76atoecf45b7" path="res://assets/sprites/joystickbackground.png" id="6_qewby"]
+[ext_resource type="Texture2D" uid="uid://dg3hsojfm6y5v" path="res://assets/sprites/JoystickKnob.png" id="7_bradm"]
 [ext_resource type="PackedScene" uid="uid://colny87jym4du" path="res://scenes/finish_line.tscn" id="7_e40mx"]
 [ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="8_a114e"]
 [ext_resource type="PackedScene" uid="uid://cc3xi2oqqsp1" path="res://scenes/electron_level3.tscn" id="9_rupth"]
@@ -445,7 +447,7 @@ separation = Vector2i(1, 1)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_if4l3")
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 position = Vector2(2, -4)
 script = ExtResource("1_rupth")
 
@@ -530,6 +532,26 @@ grow_vertical = 2
 max_value = 1.0
 step = 0.001
 metadata/_edit_use_anchors_ = true
+
+[node name="Joystick" type="Control" parent="CanvasLayer/Sliders/ControlSliders"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 49.0
+offset_top = -3.0
+offset_right = 89.0
+offset_bottom = 37.0
+
+[node name="JoystickBackground" type="TextureRect" parent="CanvasLayer/Sliders/ControlSliders/Joystick"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_qewby")
+
+[node name="JoystickKnob" type="TextureRect" parent="CanvasLayer/Sliders/ControlSliders/Joystick/JoystickBackground"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_bradm")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/Sliders"]
 offset_left = 1098.0

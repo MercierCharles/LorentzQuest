@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b66gvgfgpnlfe"
+path="res://.godot/imported/MORAD - NORMAL [VIDEO OFICIAL].mp3-ea6e055a316de60799d96e827f954653.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Morad/MORAD - NORMAL [VIDEO OFICIAL].mp3"
+dest_files=["res://.godot/imported/MORAD - NORMAL [VIDEO OFICIAL].mp3-ea6e055a316de60799d96e827f954653.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

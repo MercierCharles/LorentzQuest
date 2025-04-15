@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://dijda2eqqmlxw"]
+
+[ext_resource type="Script" uid="uid://c3j3bljfw8htw" path="res://scripts/high_score_dialog.gd" id="1_wo75b"]
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="2_4osmr"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_wo75b")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1182.0
+offset_bottom = 680.0
+color = Color(0.418308, 2.69532e-06, 0.271457, 1)
+
+[node name="SubmitButton" type="Button" parent="."]
+offset_left = 432.0
+offset_top = 473.0
+offset_right = 688.0
+offset_bottom = 591.0
+theme_override_fonts/font = ExtResource("2_4osmr")
+theme_override_font_sizes/font_size = 50
+text = "OK"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 217.0
+offset_top = 32.0
+offset_right = 897.0
+offset_bottom = 161.0
+theme_override_fonts/font = ExtResource("2_4osmr")
+theme_override_font_sizes/font_size = 40
+text = "Your score is in the world's Top 5 !
+
+"
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 94.0
+offset_top = 124.0
+offset_right = 550.0
+offset_bottom = 253.0
+theme_override_fonts/font = ExtResource("2_4osmr")
+theme_override_font_sizes/font_size = 40
+text = "Score : 
+
+"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 81.0
+offset_top = 268.0
+offset_right = 405.0
+offset_bottom = 309.0
+theme_override_fonts/font = ExtResource("2_4osmr")
+theme_override_font_sizes/font_size = 40
+text = "Enter your name :"
+
+[node name="UsernameInput" type="LineEdit" parent="."]
+offset_left = 437.0
+offset_top = 267.0
+offset_right = 899.0
+offset_bottom = 316.0
+theme_override_fonts/font = ExtResource("2_4osmr")
+theme_override_font_sizes/font_size = 40
+
+[connection signal="pressed" from="SubmitButton" to="." method="_on_submit_button_pressed"]

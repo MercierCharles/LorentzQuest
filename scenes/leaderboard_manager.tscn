@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgky1b8benrbc"]
+
+[ext_resource type="Script" uid="uid://ovqvedy7fujc" path="res://scripts/LeaderboardManager.gd" id="1_uqleq"]
+
+[node name="LeaderboardManager" type="Node"]
+script = ExtResource("1_uqleq")

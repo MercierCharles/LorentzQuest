@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://d13bn4nnquvou"]
+
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="1_7exyc"]
+[ext_resource type="Script" uid="uid://bwufsqo00lgiv" path="res://scripts/first_screen.gd" id="1_w3c0a"]
+[ext_resource type="Texture2D" uid="uid://djvexgtus8bmg" path="res://assets/sprites/proton.png" id="2_w3c0a"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w3c0a")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1164.0
+offset_bottom = 659.0
+color = Color(0, 0.160784, 0.313726, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 291.0
+offset_top = 51.0
+offset_right = 876.0
+offset_bottom = 142.0
+theme_override_fonts/font = ExtResource("1_7exyc")
+theme_override_font_sizes/font_size = 90
+text = "Lorentz Quest"
+
+[node name="ButtonPlay" type="Button" parent="."]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 241.0
+offset_right = 701.0
+offset_bottom = 377.0
+theme_override_fonts/font = ExtResource("1_7exyc")
+theme_override_font_sizes/font_size = 60
+text = "Play"
+
+[node name="ButtonOptions" type="Button" parent="."]
+layout_mode = 0
+offset_left = 434.0
+offset_top = 418.0
+offset_right = 701.0
+offset_bottom = 554.0
+theme_override_fonts/font = ExtResource("1_7exyc")
+theme_override_font_sizes/font_size = 60
+text = "Options"
+
+[node name="Proton" type="Sprite2D" parent="."]
+position = Vector2(359, 98)
+scale = Vector2(0.105469, 0.105469)
+texture = ExtResource("2_w3c0a")
+
+[connection signal="pressed" from="ButtonPlay" to="." method="_on_button_play_pressed"]
+[connection signal="pressed" from="ButtonOptions" to="." method="_on_button_options_pressed"]

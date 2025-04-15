@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bhafkkckqipsk"]
+[gd_scene load_steps=10 format=3 uid="uid://bhafkkckqipsk"]
 
 [ext_resource type="Script" uid="uid://bjbigbt731mx8" path="res://scripts/level_1.gd" id="1_6sh32"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="1_dwgg1"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bkn4ombap1qm2" path="res://scenes/electron.tscn" id="3_6sh32"]
 [ext_resource type="PackedScene" uid="uid://c7f2i3i4covj3" path="res://scenes/game_over_ui.tscn" id="4_ejswk"]
 [ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_ru4tf"]
-[ext_resource type="PackedScene" uid="uid://dpwvn1pbypbld" path="res://scenes/win_scene.tscn" id="7_ejswk"]
 [ext_resource type="Texture2D" uid="uid://tklq2s4yuebo" path="res://assets/sprites/CoulombForceEq.png" id="8_bbk5w"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6sh32"]
@@ -464,11 +463,8 @@ offset_top = -435.0
 offset_right = -463.0
 offset_bottom = -371.0
 theme_override_fonts/font = ExtResource("5_ru4tf")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 50
 text = "Time : 0 s"
-
-[node name="WinSceneUI" parent="." instance=ExtResource("7_ejswk")]
-visible = false
 
 [node name="TheoryUI" type="CanvasLayer" parent="."]
 
@@ -507,7 +503,7 @@ k is Coulomb’s constant
 q1 and q2 are the charges
 r is the distance between the charges
 
-Now, use the arrows to avoid getting hit by the electrons.
+Now, use the arrows to avoid getting hit by the electrons !
 "
 metadata/_edit_use_anchors_ = true
 

@@ -3,7 +3,6 @@ extends Node2D
 @onready var h_slider_angle: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderAngle
 @onready var h_slider_norm: HSlider = $CanvasLayer/Sliders/ControlSliders/HSliderNorm
 @onready var proton_lev_2: RigidBody2D = $ProtonLev2
-@onready var time_label: Label = $CanvasLayer/TimeLabel
 @onready var game_over_ui: CanvasLayer = $GameOverUI
 @onready var fail_label: Label = $GameOverUI/FailLabel
 @onready var lost_label: Label = $GameOverUI/LostLabel
@@ -40,7 +39,7 @@ var left_boundary = null
 var right_boundary = null
 var base_boundary_speed = 100.0  # Vitesse initiale des lignes en pixels par seconde
 var current_boundary_speed = 100.0  # Vitesse actuelle des lignes
-var boundary_speed_increase = 20.0  # Augmentation de la vitesse par seconde
+var boundary_speed_increase = 5.0  # Augmentation de la vitesse par seconde
 var boundary_width = 20.0    # Épaisseur des lignes
 var boundary_spacing = 3300.0  # Distance entre les deux lignes
 var boundary_start_x = -1650.0  # Position de départ pour la ligne de gauche
@@ -54,7 +53,11 @@ const ELECTRON_SCENE = preload("res://scenes/electron_level3.tscn")  # Précharg
 # Ajouter cette variable globale
 var camera_node = null
 
-# Ajouter cette fonction pour créer une ligne de transformation
+# Ajoutez cette variable aux variables globales
+var last_transform_position = Vector2.ZERO
+var transform_cooldown = 0.5  # Temps minimum entre deux transformations
+var transforming_areas = []  # Liste pour suivre les zones de transformation
+
 func _create_transformation_line(position_x):
 	var transform_line = Line2D.new()
 	transform_line.default_color = Color(0.8, 0, 1, 0.8)  # Violet semi-transparent
@@ -63,11 +66,54 @@ func _create_transformation_line(position_x):
 	transform_line.add_point(Vector2(position_x, 2000))   # Point bas
 	add_child(transform_line)
 	transformation_lines.append(transform_line)
+	
+	# Ajoutons également une Area2D pour la détection de collision
+	var area = Area2D.new()
+	area.position = Vector2(position_x, 0)
+	var shape = CollisionShape2D.new()
+	var rect = RectangleShape2D.new()
+	rect.extents = Vector2(transformation_line_width/2, 2000)  # Largeur de la ligne, hauteur de 4000
+	shape.shape = rect
+	area.add_child(shape)
+	
+	# Connecter le signal de collision
+	area.body_entered.connect(_on_transform_area_entered.bind(transform_line, area))
+	
+	add_child(area)
+	transforming_areas.append(area)  # Ajouter à la liste de suivi
+	
 	return transform_line
 
-# Ajouter cette fonction pour créer les limites verticales
+# Nouvelle fonction pour gérer les entrées dans la zone de transformation
+func _on_transform_area_entered(body, line, area):
+	if body == proton_lev_2:
+		var current_time = elapsed_time
+		var current_position = proton_lev_2.global_position
+		
+		# Vérifier si nous ne sommes pas en cooldown et si nous avons bougé assez loin
+		if current_time > (proton_lev_2.get_meta("last_transform_time", 0) + transform_cooldown) and \
+		   current_position.distance_to(last_transform_position) > 50:
+			
+			_transform_player()
+			proton_lev_2.set_meta("last_transform_time", current_time)
+			last_transform_position = current_position
+			
+			# Supprimer la ligne de transformation
+			if line in transformation_lines:
+				var index = transformation_lines.find(line)
+				if index != -1:
+					transformation_lines.remove_at(index)
+				line.queue_free()
+			
+			# Supprimer également l'Area2D
+			if area in transforming_areas:
+				var index = transforming_areas.find(area)
+				if index != -1:
+					transforming_areas.remove_at(index)
+				area.queue_free()
+
 func _create_boundaries():
-	# Créer la ligne de gauche
+	# Créer uniquement la ligne de gauche
 	left_boundary = Line2D.new()
 	left_boundary.default_color = Color(1, 0, 0, 0.8)  # Rouge semi-transparent
 	left_boundary.width = boundary_width
@@ -75,15 +121,21 @@ func _create_boundaries():
 	left_boundary.add_point(Vector2(boundary_start_x, 2000))   # Point bas
 	add_child(left_boundary)
 	
-	# Créer la ligne de droite
-	right_boundary = Line2D.new()
-	right_boundary.default_color = Color(1, 0, 0, 0.8)  # Rouge semi-transparent
-	right_boundary.width = boundary_width
-	right_boundary.add_point(Vector2(boundary_start_x + boundary_spacing, -2000))  # Point haut
-	right_boundary.add_point(Vector2(boundary_start_x + boundary_spacing, 2000))   # Point bas
-	add_child(right_boundary)
+	# On ne crée plus la ligne de droite
+	right_boundary = null
 
 func _ready():
+	var music
+	
+	if GameState.selected_artist == "Bad Bunny" :
+		music = load("res://assets/music/Bad Bunny/BAD BUNNY x JHAY CORTEZ - CÓMO SE SIENTE REMIX  LAS QUE NO IBAN A SALIR (Audio Oficial).mp3")
+	elif GameState.selected_artist == "Morad" :
+		music = load("res://assets/music/Morad/BENY JR FT MORAD - SIGUE (K y B Capítulo 1) [VIDEO OFICIAL].mp3")
+	elif GameState.selected_artist == "Myke Towers" :
+		music = load("res://assets/music/Myke Towers/La Forma En Que Me Miras - Super Yei x Myke Towers x Sammy x Lenny Tavarez x Rafa Pabon x Jone Quest.mp3")
+		
+	MusicPlayer.play_music(music)
+	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	h_slider_norm.value_changed.connect(_on_slider_changed)
 	h_slider_angle.value_changed.connect(_on_slider_changed)
@@ -155,40 +207,44 @@ func _start_infinite_level():
 
 
 func _check_boundary_collision():
-	# Vérifier si le proton est entre les deux lignes
+	# Vérifier si le proton est à gauche de la ligne gauche
 	var proton_x = proton_lev_2.global_position.x
 	var left_x = left_boundary.points[0].x
-	var right_x = right_boundary.points[0].x
 	
-	# Si le proton est à gauche de la ligne gauche ou à droite de la ligne droite
-	if proton_x < left_x or proton_x > right_x:
+	# Si le proton est à gauche de la ligne gauche
+	if proton_x < left_x:
 		game_over()
 
 func _process(delta):
 	if is_running:
 		elapsed_time += delta
-		time_label.text = "Time: %.2f s" % elapsed_time
 		
 		# Mise à jour de la position du joueur
 		player_position = proton_lev_2.global_position
 		
+		# Mettre à jour le score en fonction de la position X du joueur
+		current_score = int(player_position.x)/100
+		score_label.text = "Score: %d" % current_score
+		
 		# Augmenter la vitesse des limites avec le temps
 		current_boundary_speed = base_boundary_speed + (boundary_speed_increase * elapsed_time)
 		
-		# Déplacer les limites verticales avec la vitesse actuelle
-		var displacement = current_boundary_speed * delta
-		
-		# Mettre à jour la position des points de la ligne gauche
+		# Gestion intelligente de la limite gauche
 		var left_points = left_boundary.points
+		var current_left_x = left_points[0].x
+		
+		# Déplacer normalement la ligne à sa vitesse actuelle
+		var displacement = current_boundary_speed * delta
 		left_points[0].x += displacement
 		left_points[1].x += displacement
-		left_boundary.points = left_points
 		
-		# Mettre à jour la position des points de la ligne droite
-		var right_points = right_boundary.points
-		right_points[0].x += displacement
-		right_points[1].x += displacement
-		right_boundary.points = right_points
+		# Si la ligne est trop loin derrière le joueur (hors de l'écran), la repositionner
+		var max_distance = 2300  # Distance maximale avant de repositionner la ligne
+		if player_position.x - current_left_x > max_distance:
+			left_points[0].x = player_position.x - max_distance
+			left_points[1].x = player_position.x - max_distance
+		
+		left_boundary.points = left_points
 		
 		# Vérifier les collisions avec les lignes de transformation
 		_check_transformation_collision()
@@ -281,7 +337,6 @@ func _update_arrows():
 		arrow.update_arrow(intensity, angle, FIELD_SCALE)
 
 func _spawn_next_section():
-	_create_transformation_line(100)
 	# Sélection aléatoire d'une section différente de la précédente
 	var available_indices = range(SECTION_SCENES.size())
 	if last_section_index != -1:
@@ -315,18 +370,47 @@ func _spawn_next_section():
 
 
 func _check_transformation_collision():
-	for i in range(transformation_lines.size() - 1, -1, -1):  # Parcourir en sens inverse pour pouvoir supprimer
+	# Cette fonction sert maintenant de méthode de secours
+	# si le signal body_entered ne se déclenche pas correctement
+	
+	for i in range(transformation_lines.size() - 1, -1, -1):
 		var line = transformation_lines[i]
 		var line_x = line.points[0].x
 		var proton_x = proton_lev_2.global_position.x
 		
-		# Vérifier si le proton vient de traverser la ligne
-		# On considère qu'il traverse la ligne s'il est à moins de 15 pixels
-		if abs(proton_x - line_x) < 15:
-			_transform_player()
-			# Supprimer la ligne après transformation
-			line.queue_free()
-			transformation_lines.remove_at(i)
+		# Vérifier avec une zone plus large
+		var detection_width = 40
+		
+		# Utiliser à la fois la position actuelle et la position précédente estimée
+		var previous_x = proton_x - proton_lev_2.linear_velocity.x * get_physics_process_delta_time()
+		
+		# Si le joueur a traversé la ligne OU s'il est très proche
+		if (previous_x < line_x and proton_x > line_x) or \
+		   (previous_x > line_x and proton_x < line_x) or \
+		   abs(proton_x - line_x) < detection_width:
+			
+			var current_time = elapsed_time
+			var current_position = proton_lev_2.global_position
+			
+			# Vérifier le cooldown et la distance
+			if current_time > (proton_lev_2.get_meta("last_transform_time", 0) + transform_cooldown) and \
+			   current_position.distance_to(last_transform_position) > 50:
+				
+				_transform_player()
+				proton_lev_2.set_meta("last_transform_time", current_time)
+				last_transform_position = current_position
+				
+				# Supprimer la ligne après transformation
+				line.queue_free()
+				transformation_lines.remove_at(i)
+				
+				# Supprimer également l'Area2D correspondante si elle existe
+				for j in range(transforming_areas.size() - 1, -1, -1):
+					var area = transforming_areas[j]
+					if abs(area.position.x - line_x) < 5:  # Si l'area est proche de la ligne
+						area.queue_free()
+						transforming_areas.remove_at(j)
+						break
 
 
 func _transform_player():
@@ -404,9 +488,12 @@ func _is_player_out_of_bounds():
 func game_over():
 	is_running = false
 	get_tree().paused = true
-	game_over_ui.visible = true
-	lost_label.text = "Time: %.2f s" % elapsed_time
-	fail_label.text = "Score: %d" % current_score
+	#GameManager.on_level_completed("ElectricField", current_score)
+	if current_score > GameState.best_score_ElectricField :
+		GameState.best_score_ElectricField = current_score
+	game_over_ui.visible = true  
+	lost_label.text = "Score: %d" % current_score
+	fail_label.text = "Record: %d" % GameState.best_score_ElectricField
 
 func _on_play_button_pressed() -> void:
 	GameState.has_seen_theory_level2 = true

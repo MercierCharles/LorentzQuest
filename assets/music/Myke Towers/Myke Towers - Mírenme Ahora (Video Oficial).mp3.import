@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cuqmdapntdxym"
+path="res://.godot/imported/Myke Towers - Mírenme Ahora (Video Oficial).mp3-1a750cd2574b9378a13cbe7acac5d102.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Myke Towers/Myke Towers - Mírenme Ahora (Video Oficial).mp3"
+dest_files=["res://.godot/imported/Myke Towers - Mírenme Ahora (Video Oficial).mp3-1a750cd2574b9378a13cbe7acac5d102.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://e4plr4qloy0g"
+path="res://.godot/imported/BENY JR FT MORAD - SIGUE (K y B Capítulo 1) [VIDEO OFICIAL].mp3-9fb3b00a375360dc171f503a9e92b7f0.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Morad/BENY JR FT MORAD - SIGUE (K y B Capítulo 1) [VIDEO OFICIAL].mp3"
+dest_files=["res://.godot/imported/BENY JR FT MORAD - SIGUE (K y B Capítulo 1) [VIDEO OFICIAL].mp3-9fb3b00a375360dc171f503a9e92b7f0.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

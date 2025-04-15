@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dg7e5ca4q23g2"]
+[gd_scene load_steps=14 format=3 uid="uid://cgf434ycquxid"]
 
 [ext_resource type="Script" uid="uid://ccgyqwasfw4c0" path="res://scripts/level_6.gd" id="1_6p2dx"]
 [ext_resource type="Texture2D" uid="uid://cme6x81kk03n3" path="res://assets/Tilemap/monochrome_tilemap.png" id="2_h6dii"]
 [ext_resource type="PackedScene" uid="uid://csvjt8orq81v0" path="res://scenes/proton_level2.tscn" id="3_q1tln"]
-[ext_resource type="Script" path="res://scripts/camera_2d_level6.gd" id="4_6p2dx"]
+[ext_resource type="Script" uid="uid://cjjcduc1358rl" path="res://scripts/camera_2d_level6.gd" id="4_6p2dx"]
 [ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="5_21e8i"]
 [ext_resource type="Script" uid="uid://d2uue7q6ppugl" path="res://scripts/control_sliders.gd" id="6_pnjdx"]
 [ext_resource type="Texture2D" uid="uid://c76atoecf45b7" path="res://assets/sprites/joystickbackground.png" id="7_406ad"]
@@ -537,6 +537,7 @@ step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Joystick" type="Control" parent="CanvasLayer/Sliders/ControlSliders"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 49.0
@@ -564,22 +565,13 @@ offset_bottom = 628.0
 texture = ExtResource("7_bqndy")
 expand_mode = 1
 
-[node name="TimeLabel" type="Label" parent="CanvasLayer"]
-offset_left = 23.0
-offset_top = 18.0
-offset_right = 342.0
-offset_bottom = 82.0
-theme_override_fonts/font = ExtResource("5_21e8i")
-theme_override_font_sizes/font_size = 30
-text = "Time : 0 s"
-
 [node name="ScoreLabel" type="Label" parent="CanvasLayer"]
-offset_left = 990.0
-offset_top = 16.0
-offset_right = 1144.0
-offset_bottom = 61.0
+offset_left = 24.0
+offset_top = 18.0
+offset_right = 178.0
+offset_bottom = 63.0
 theme_override_fonts/font = ExtResource("5_21e8i")
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 50
 text = "Score : 0"
 
 [node name="GameOverUI" parent="." instance=ExtResource("10_ruoii")]
@@ -619,23 +611,20 @@ text = "If a charge q is placed in an electric field E, it experiences a force :
 A positive charge moves in the direction of E, while a negative charge
 moves opposite to it.
 
-Now, use the arrows to control the electric field and get the proton to 
-the finish line in less than 60 s
-
-up/down to vary the norm of the field
-right/left to vary its direction"
+Now, use your mouse as a joystick by clicking anywhere on the screen, 
+and dont get caught by the red line !"
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="TheoryUI"]
 anchors_preset = -1
-anchor_left = -0.103299
+anchor_left = -0.166667
 anchor_top = -0.0138889
-anchor_right = -0.103299
+anchor_right = -0.166667
 anchor_bottom = -0.0138889
-offset_left = 518.0
-offset_top = 180.0
-offset_right = 791.0
-offset_bottom = 254.0
+offset_left = 570.0
+offset_top = 181.0
+offset_right = 843.0
+offset_bottom = 255.0
 texture = ExtResource("11_r4i0l")
 expand_mode = 1
 metadata/_edit_use_anchors_ = true

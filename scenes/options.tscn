@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://g8w6ijsjc1vu"]
+
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="1_c2u1v"]
+[ext_resource type="Script" uid="uid://dsv6p2rp4msla" path="res://scripts/options.gd" id="1_yjkok"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yjkok")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1168.0
+offset_bottom = 664.0
+color = Color(0, 0.160784, 0.313726, 1)
+
+[node name="Label" type="Label" parent="ColorRect"]
+layout_mode = 0
+offset_left = 463.0
+offset_top = 35.0
+offset_right = 679.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 60
+text = "Options"
+
+[node name="Button" type="Button" parent="ColorRect"]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 508.0
+offset_right = 683.0
+offset_bottom = 608.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 40
+text = "Back"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 190.0
+offset_right = 234.0
+offset_bottom = 275.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 40
+text = "Music : 
+"
+
+[node name="artist_selector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 251.0
+offset_top = 186.0
+offset_right = 352.0
+offset_bottom = 234.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 30
+
+[connection signal="pressed" from="ColorRect/Button" to="." method="_on_button_pressed"]

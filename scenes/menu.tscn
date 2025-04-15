@@ -1,0 +1,109 @@
+[gd_scene load_steps=6 format=3 uid="uid://dedw6j8nro633"]
+
+[ext_resource type="Script" uid="uid://dr2d03l0bq8pu" path="res://scripts/menu.gd" id="1_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://dh4fu4rcpxubt" path="res://assets/images/Capture d'écran 2025-04-13 002943.png" id="1_mhnvy"]
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="2_4ytvr"]
+[ext_resource type="Texture2D" uid="uid://lot77kdd3xna" path="res://assets/images/Capture d'écran 2025-04-13 004637.png" id="3_g3eks"]
+[ext_resource type="Texture2D" uid="uid://ccvwpqpvapf61" path="res://assets/images/Capture d'écran 2025-04-13 003743.png" id="4_v86rl"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ytvr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1157.0
+offset_bottom = 654.0
+color = Color(0, 0.160784, 0.313726, 1)
+
+[node name="TextureButton1" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 26.0
+offset_right = 384.0
+offset_bottom = 451.0
+texture_normal = ExtResource("1_mhnvy")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="TextureButton1"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 129.0
+offset_right = 310.0
+offset_bottom = 170.0
+theme_override_fonts/font = ExtResource("2_4ytvr")
+theme_override_font_sizes/font_size = 40
+text = "Coulomb Force"
+
+[node name="TextureButton2" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 413.0
+offset_top = 28.0
+offset_right = 749.0
+offset_bottom = 449.0
+texture_normal = ExtResource("3_g3eks")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="TextureButton2"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 127.0
+offset_right = 306.0
+offset_bottom = 168.0
+theme_override_fonts/font = ExtResource("2_4ytvr")
+theme_override_font_sizes/font_size = 40
+text = "Electric Field"
+
+[node name="TextureButton3" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 780.0
+offset_top = 30.0
+offset_right = 1116.0
+offset_bottom = 451.0
+texture_normal = ExtResource("4_v86rl")
+ignore_texture_size = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="TextureButton3"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 125.0
+offset_right = 306.0
+offset_bottom = 166.0
+theme_override_fonts/font = ExtResource("2_4ytvr")
+theme_override_font_sizes/font_size = 40
+text = "Magnetic Field"
+
+[node name="ButtonBack" type="Button" parent="."]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 485.0
+offset_right = 530.0
+offset_bottom = 610.0
+theme_override_fonts/font = ExtResource("2_4ytvr")
+theme_override_font_sizes/font_size = 40
+text = "Back
+"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 645.0
+offset_top = 488.0
+offset_right = 890.0
+offset_bottom = 613.0
+theme_override_fonts/font = ExtResource("2_4ytvr")
+theme_override_font_sizes/font_size = 40
+text = "Rankings
+"
+
+[connection signal="pressed" from="TextureButton1" to="." method="_on_texture_button_1_pressed"]
+[connection signal="pressed" from="TextureButton2" to="." method="_on_texture_button_2_pressed"]
+[connection signal="pressed" from="TextureButton3" to="." method="_on_texture_button_3_pressed"]
+[connection signal="pressed" from="ButtonBack" to="." method="_on_button_back_pressed"]
