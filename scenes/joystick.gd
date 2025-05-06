@@ -9,6 +9,14 @@ var max_radius = 50  # Rayon max du joystick (ajuste selon ton besoin)
 
 func _ready():
 	hide_joystick()
+	if Input.get_connected_joypads().size() > 0:
+		joystick_background.visible = false
+		joystick_knob.visible = false  # Hide the node
+	else:
+		joystick_background.visible = true
+		joystick_knob.visible = true 
+
+
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -24,7 +32,6 @@ func _gui_input(event):
 		update_joystick(event.position)
 
 func show_joystick_at(position):
-	print("show")
 	joystick_background.position = position - joystick_background.size / 2
 	joystick_knob.position = joystick_background.size / 2 - joystick_knob.size / 2
 	joystick_background.show()
@@ -42,4 +49,3 @@ func update_joystick(current_pos):
 	# Tu peux ici récupérer la direction normalisée et la longueur si besoin :
 	var direction = offset.normalized() if offset.length() > 0 else Vector2.ZERO
 	var intensity = offset.length() / max_radius
-	print("Direction : ", direction, " | Intensité : ", intensity)
