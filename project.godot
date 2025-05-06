@@ -21,6 +21,20 @@ GameState="*res://scripts/GameState.gd"
 MusicPlayer="*res://scripts/music_player.gd"
 LeaderboardManager_node="*res://scripts/leaderboard_manager.gd"
 
+[display]
+
+window/size/viewport_width=1163
+window/size/viewport_height=659
+window/size/resizable=true
+window/size/borderless=false
+window/size/always_on_top=false
+window/size/transparent=false
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+window/stretch/scale=1.0
+window/bg_color=Color(0, 0, 0, 1)
+window/position_type="center_screen"
+
 [input]
 
 move_left={
@@ -61,3 +75,7 @@ slider_down={
 , Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":-1,"axis":3,"axis_value":1.0,"script":null)
 ]
 }
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
