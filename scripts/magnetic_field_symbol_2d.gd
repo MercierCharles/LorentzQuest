@@ -14,18 +14,18 @@ func _draw():
 	var dot_size = DOT_RADIUS * field_scale
 	
 	# ✅ Draw outlined circle (instead of a filled one)
-	draw_arc(Vector2.ZERO, radius, 0, 2 * PI, 32, Color.WHITE, CIRCLE_THICKNESS)
+	draw_arc(Vector2.ZERO, radius, 0, 2 * PI, 32, Color.DIM_GRAY, CIRCLE_THICKNESS)
 
 	if direction == "out":
 		# ✅ Draw a small filled dot in the center (⊙)
-		draw_circle(Vector2.ZERO, dot_size, Color.WHITE)
+		draw_circle(Vector2.ZERO, dot_size, Color.DIM_GRAY)
 
 	elif direction == "in":
 		# ✅ Draw a cross (⊗) for field into the screen
 		draw_line(Vector2(-cross_size / 2, -cross_size / 2), 
-				  Vector2(cross_size / 2, cross_size / 2), Color.WHITE, 2)
+				  Vector2(cross_size / 2, cross_size / 2), Color.DIM_GRAY, 2)
 		draw_line(Vector2(cross_size / 2, -cross_size / 2), 
-				  Vector2(-cross_size / 2, cross_size / 2), Color.WHITE, 2)
+				  Vector2(-cross_size / 2, cross_size / 2), Color.DIM_GRAY, 2)
 
 func set_field_scale(scaling):
 	field_scale = scaling

@@ -12,7 +12,9 @@ extends Node2D
 const GRID_SPACING = 400.0  
 const FIELD_SCALE = 150.0  
 const SYMBOL_SCENE = preload("res://scenes/magnetic_field_symbol_2d.tscn")  
-const MAX_DISTANCE = 400.0  # Distance max avant Game Over
+const INITIAL_MAX_DISTANCE = 400.0  # Distance max initiale avant Game Over
+const MIN_PATH_WIDTH = 100.0  # Largeur minimale du chemin
+const WIDTH_DECREASE_RATE = 0.5  # Taux de réduction de la largeur par 1000 points
 const STRAIGHT_LENGTH = 1000.0  # Longueur initiale de la ligne droite
 const DEBUT_CHEMIN = -1500.0
 const MIN_RADIUS = 600.0  # Rayon minimal des arcs de cercle
@@ -40,7 +42,7 @@ var visible_path_points = []  # Points du chemin actuellement visibles
 var path_start_index = 0  # Index du début du chemin visible
 var generated_symbols = {}  # Dictionnaire pour traquer les symboles générés par secteur
 var last_proton_grid_position = Vector2.ZERO  # Dernière position du proton pour la génération de symboles
-
+var current_max_distance = INITIAL_MAX_DISTANCE  # Variable pour stocker la largeur actuelle du chemin
 
 func _ready():
 	var music
@@ -51,6 +53,8 @@ func _ready():
 		music = load("res://assets/music/Morad/MORAD - PELELE (AUDIO OFICIAL).mp3")
 	elif GameState.selected_artist == "Myke Towers" :
 		music = load("res://assets/music/Myke Towers/Myke Towers - Mírenme Ahora (Video Oficial).mp3")
+	elif GameState.selected_artist == "Ozuna":
+		music = load("res://assets/music/Ozuna/Ozuna feat. Davido - Eva Longoria (Visualizer Oficial)  AFRO.mp3")
 		
 	MusicPlayer.play_music(music)
 	
@@ -77,6 +81,8 @@ func _ready():
 		theory_ui.process_mode = Node.PROCESS_MODE_ALWAYS
 		get_tree().paused = true  
 	
+	# Initialisation de la largeur du chemin
+	current_max_distance = INITIAL_MAX_DISTANCE
 	
 	_initialize_proton()
 	score_label.text = "Score: 0"
@@ -102,28 +108,33 @@ func _process(delta):
 		# Déplacement du slider avec les entrées
 		var slider_step = 0.5
 		
-		# Gérer les entrées du D-Pad de la manette
-		if Input.is_action_pressed("slider_up"):
-			h_slider.value = min(h_slider.max_value, h_slider.value + slider_step)
-		elif Input.is_action_pressed("slider_down"):
-			h_slider.value = max(h_slider.min_value, h_slider.value - slider_step)
+		if Input.is_joy_known(0):
+			var axis_value = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
+			axis_value = -axis_value
+			var shaped = sign(axis_value) * pow(abs(axis_value),2.5)
+			var slider_min = h_slider.min_value
+			var slider_max = h_slider.max_value
+			var new_value = lerp(slider_min, slider_max, (shaped + 1.0) / 2.0)
+			h_slider.value = new_value
+		
+		# Mise à jour du score basé sur la distance parcourue
+		var distance_traveled = proton.global_position.length()
+		score = int(distance_traveled / 100)
+		score_label.text = "Score: %d" % score
+		
+		# Mettre à jour la largeur du chemin en fonction du score
+		_update_path_width()
 		
 		# Vérification de la distance du proton par rapport au chemin
 		_check_distance_from_path()
 		
 		# Maintien de la vitesse constante
-		
 		if abs(elapsed_time-last_sec) < 0.1:
 			last_sec = last_sec + 1
 			var speed = proton.linear_velocity.length()
 			if speed > 0:
 				var corrected_velocity = proton.linear_velocity.normalized() * INITIAL_SPEED
 				proton.linear_velocity = corrected_velocity
-		
-		# Mise à jour du score basé sur la distance parcourue
-		var distance_traveled = proton.global_position.length()
-		score = int(distance_traveled / 100)
-		score_label.text = "Score: %d" % score
 		
 		# Génération dynamique du chemin
 		_check_for_path_generation()
@@ -136,6 +147,18 @@ func _process(delta):
 		
 		# Nettoyage des segments et symboles qui sont loin derrière le joueur
 		_cleanup_old_segments()
+
+func _update_path_width():
+	# Calculer la nouvelle largeur basée sur le score
+	# Réduire la largeur au fur et à mesure que le score augmente
+	var score_factor = score / 1000.0  # Convertir le score en facteur (tous les 1000 points)
+	var width_reduction = score_factor * WIDTH_DECREASE_RATE * INITIAL_MAX_DISTANCE
+	
+	# S'assurer que la largeur ne descend pas en dessous du minimum
+	current_max_distance = max(INITIAL_MAX_DISTANCE - width_reduction, MIN_PATH_WIDTH)
+	
+	# Redessiner le chemin avec la nouvelle largeur
+	queue_redraw()
 
 func _get_grid_position(world_pos: Vector2) -> Vector2:
 	# Convertit une position monde en position de grille
@@ -305,8 +328,8 @@ func _cleanup_old_segments():
 func _draw():
 	if visible_path_points.size() > 1:
 		# Dessiner le chemin principal en vert
-		draw_polyline(visible_path_points, Color.GREEN, GREEN_WIDTH)
-		draw_polyline([Vector2(DEBUT_CHEMIN+MAX_DISTANCE*facteur_discontinuite,0),Vector2.ZERO], Color.GREEN, GREEN_WIDTH)
+		#draw_polyline(visible_path_points, Color.GREEN, GREEN_WIDTH)
+		#draw_polyline([Vector2(DEBUT_CHEMIN+current_max_distance*facteur_discontinuite,0),Vector2.ZERO], Color.GREEN, GREEN_WIDTH)
 		
 		# Listes pour les bords gauche et droit
 		var outer_points_left = []
@@ -315,30 +338,30 @@ func _draw():
 		# Premier segment droit - création des lignes parallèles simples
 		# Segment supérieur (au lieu de outer_points_right)
 		draw_line(
-			Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
-			Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite),
+			Vector2(DEBUT_CHEMIN, -current_max_distance*facteur_discontinuite),
+			Vector2(STRAIGHT_LENGTH, -current_max_distance*facteur_discontinuite),
 			Color.RED, RED_WIDTH, true
 		)
 		
 		# Segment inférieur (au lieu de outer_points_left)
 		draw_line(
-			Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
-			Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite),
+			Vector2(DEBUT_CHEMIN, current_max_distance*facteur_discontinuite),
+			Vector2(STRAIGHT_LENGTH, current_max_distance*facteur_discontinuite),
 			Color.RED, RED_WIDTH, true
 		)
 		
 		# Segment vertical à gauche
 		draw_line(
-			Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite),
-			Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite),
+			Vector2(DEBUT_CHEMIN, -current_max_distance*facteur_discontinuite),
+			Vector2(DEBUT_CHEMIN, current_max_distance*facteur_discontinuite),
 			Color.RED, RED_WIDTH, true
 		)
 		
 		# Ajouter les points aux listes pour le reste du dessin
-		outer_points_right.append(Vector2(DEBUT_CHEMIN, -MAX_DISTANCE*facteur_discontinuite))
-		outer_points_right.append(Vector2(STRAIGHT_LENGTH, -MAX_DISTANCE*facteur_discontinuite))
-		outer_points_left.append(Vector2(DEBUT_CHEMIN, MAX_DISTANCE*facteur_discontinuite))
-		outer_points_left.append(Vector2(STRAIGHT_LENGTH, MAX_DISTANCE*facteur_discontinuite))
+		outer_points_right.append(Vector2(DEBUT_CHEMIN, -current_max_distance*facteur_discontinuite))
+		outer_points_right.append(Vector2(STRAIGHT_LENGTH, -current_max_distance*facteur_discontinuite))
+		outer_points_left.append(Vector2(DEBUT_CHEMIN, current_max_distance*facteur_discontinuite))
+		outer_points_left.append(Vector2(STRAIGHT_LENGTH, current_max_distance*facteur_discontinuite))
 		
 		# Pour le reste des points du chemin, utiliser la méthode existante
 		for i in range(1, visible_path_points.size()):
@@ -367,8 +390,8 @@ func _draw():
 					normal *= min(correction, 1.5)
 			
 			# Ajouter les points aux listes
-			outer_points_left.append(visible_path_points[i] + normal * MAX_DISTANCE)
-			outer_points_right.append(visible_path_points[i] - normal * MAX_DISTANCE)
+			outer_points_left.append(visible_path_points[i] + normal * current_max_distance)
+			outer_points_right.append(visible_path_points[i] - normal * current_max_distance)
 		
 		# Inverser l'ordre des points de droite
 		outer_points_right.reverse()
@@ -382,24 +405,41 @@ func _draw():
 
 
 func _check_distance_from_path():
-	if visible_path_points.size() < 2:
-		return  # Pas assez de points pour former un segment
-		
 	var proton_pos = proton.global_position
 	var min_distance = INF
 	
-	# Ne vérifier que les segments visibles du chemin
-	for i in range(visible_path_points.size() - 1):
-		var segment_start = visible_path_points[i]
-		var segment_end = visible_path_points[i + 1]
-		var closest_point = _closest_point_on_segment(proton_pos, segment_start, segment_end)
-		var distance = proton_pos.distance_to(closest_point)
+	#PARTIE 1: Vérification pour la section initiale rectangulaire
+	if proton_pos.x <= STRAIGHT_LENGTH:
+		#Vérifier si le proton est à l'intérieur des limites du rectangle initial
+		var outside_initial_section = false
 		
-		if distance < min_distance:
-			min_distance = distance
+		#Hors des limites verticales
+		if abs(proton_pos.y) > current_max_distance*facteur_discontinuite:
+			outside_initial_section = true
+		
+		#À gauche de la ligne rouge verticale
+		if proton_pos.x < DEBUT_CHEMIN:
+			outside_initial_section = true
+		
+		if outside_initial_section:
+			game_over()  #Game over immédiat si on traverse une ligne rouge initiale
+			return
 	
-	if min_distance > MAX_DISTANCE*facteur_discontinuite:
-		game_over()  # Perdu si trop loin du chemin !
+	#PARTIE 2: Vérification pour le reste du chemin (segments curvilignes)
+	if visible_path_points.size() >= 2:
+		#Pour chaque segment visible
+		for i in range(visible_path_points.size() - 1):
+			var segment_start = visible_path_points[i]
+			var segment_end = visible_path_points[i + 1]
+			var closest_point = _closest_point_on_segment(proton_pos, segment_start, segment_end)
+			var distance = proton_pos.distance_to(closest_point)
+			
+			if distance < min_distance:
+				min_distance = distance
+		
+		#Si on est trop loin de n'importe quel segment de chemin
+		if min_distance > current_max_distance*facteur_discontinuite and proton_pos.x > 0:
+			game_over()
 
 func _closest_point_on_segment(p: Vector2, a: Vector2, b: Vector2) -> Vector2:
 	var ab = b - a
@@ -437,7 +477,7 @@ func _update_symbols():
 func game_over():
 	is_running = false  
 	get_tree().paused = true  
-	#GameManager.on_level_completed("MagneticField", score)
+	LeaderboardManager_node.submit_score(2,GameState.username,score)
 	if score > GameState.best_score_MagneticField :
 		GameState.best_score_MagneticField = score
 	game_over_ui.visible = true  

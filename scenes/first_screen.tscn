@@ -54,5 +54,32 @@ position = Vector2(359, 98)
 scale = Vector2(0.105469, 0.105469)
 texture = ExtResource("2_w3c0a")
 
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 171.0
+offset_right = 832.0
+offset_bottom = 569.0
+color = Color(0, 0.160784, 0.313726, 1)
+
+[node name="LineEdit" type="LineEdit" parent="ColorRect2"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 154.0
+offset_right = 350.0
+offset_bottom = 197.0
+theme_override_fonts/font = ExtResource("1_7exyc")
+theme_override_font_sizes/font_size = 30
+
+[node name="Label" type="Label" parent="ColorRect2"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 80.0
+offset_right = 444.0
+offset_bottom = 121.0
+theme_override_fonts/font = ExtResource("1_7exyc")
+theme_override_font_sizes/font_size = 40
+text = "Enter your name :"
+
 [connection signal="pressed" from="ButtonPlay" to="." method="_on_button_play_pressed"]
 [connection signal="pressed" from="ButtonOptions" to="." method="_on_button_options_pressed"]

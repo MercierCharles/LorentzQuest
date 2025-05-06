@@ -19,8 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://scripts/GameState.gd"
 MusicPlayer="*res://scripts/music_player.gd"
-Firebase="*res://scripts/firebase.gd"
-GameManager="*res://scripts/GameManager.gd"
+LeaderboardManager_node="*res://scripts/leaderboard_manager.gd"
 
 [input]
 

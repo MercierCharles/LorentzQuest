@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://bgky1b8benrbc"]
+[gd_scene load_steps=2 format=3 uid="uid://v6a0ahtlac2p"]
 
-[ext_resource type="Script" uid="uid://ovqvedy7fujc" path="res://scripts/LeaderboardManager.gd" id="1_uqleq"]
+[ext_resource type="Script" uid="uid://obqg82u5knxf" path="res://scripts/leaderboard_manager.gd" id="1_uqleq"]
 
 [node name="LeaderboardManager" type="Node"]
 script = ExtResource("1_uqleq")

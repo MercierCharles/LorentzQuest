@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://l0ccj6cygloi"
+path="res://.godot/imported/Ozuna feat. Davido - Eva Longoria (Visualizer Oficial)  AFRO.mp3-ada8e8737249f1f0278e95f008ad2c74.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Ozuna/Ozuna feat. Davido - Eva Longoria (Visualizer Oficial)  AFRO.mp3"
+dest_files=["res://.godot/imported/Ozuna feat. Davido - Eva Longoria (Visualizer Oficial)  AFRO.mp3-ada8e8737249f1f0278e95f008ad2c74.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

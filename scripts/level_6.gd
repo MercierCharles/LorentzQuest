@@ -133,6 +133,8 @@ func _ready():
 		music = load("res://assets/music/Morad/BENY JR FT MORAD - SIGUE (K y B Capítulo 1) [VIDEO OFICIAL].mp3")
 	elif GameState.selected_artist == "Myke Towers" :
 		music = load("res://assets/music/Myke Towers/La Forma En Que Me Miras - Super Yei x Myke Towers x Sammy x Lenny Tavarez x Rafa Pabon x Jone Quest.mp3")
+	elif GameState.selected_artist == "Ozuna":
+		music = load("res://assets/music/Ozuna/Ozuna - Baila Baila Baila (Remix) Feat. Daddy Yankee, J Balvin, Farruko, Anuel AA (Audio Oficial).mp3")
 		
 	MusicPlayer.play_music(music)
 	
@@ -239,7 +241,7 @@ func _process(delta):
 		left_points[1].x += displacement
 		
 		# Si la ligne est trop loin derrière le joueur (hors de l'écran), la repositionner
-		var max_distance = 2300  # Distance maximale avant de repositionner la ligne
+		var max_distance = 2200  # Distance maximale avant de repositionner la ligne
 		if player_position.x - current_left_x > max_distance:
 			left_points[0].x = player_position.x - max_distance
 			left_points[1].x = player_position.x - max_distance
@@ -488,7 +490,7 @@ func _is_player_out_of_bounds():
 func game_over():
 	is_running = false
 	get_tree().paused = true
-	#GameManager.on_level_completed("ElectricField", current_score)
+	LeaderboardManager_node.submit_score(1,GameState.username,current_score)
 	if current_score > GameState.best_score_ElectricField :
 		GameState.best_score_ElectricField = current_score
 	game_over_ui.visible = true  

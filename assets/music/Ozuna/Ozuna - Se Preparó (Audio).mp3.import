@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://buew0weophfde"
+path="res://.godot/imported/Ozuna - Se Preparó (Audio).mp3-529d582e894e494376375ad3f4d9c6fb.mp3str"
+
+[deps]
+
+source_file="res://assets/music/Ozuna/Ozuna - Se Preparó (Audio).mp3"
+dest_files=["res://.godot/imported/Ozuna - Se Preparó (Audio).mp3-529d582e894e494376375ad3f4d9c6fb.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

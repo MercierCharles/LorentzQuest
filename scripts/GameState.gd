@@ -5,6 +5,8 @@ var entering_from_menu = false  # Tracks if the player is coming from the level 
 var has_seen_theory_level2 = false
 var has_seen_theory_level4 = false
 
+var username: String = ""
+
 var selected_artist = "Bad Bunny"
 
 var best_time_CoulombForce = 0

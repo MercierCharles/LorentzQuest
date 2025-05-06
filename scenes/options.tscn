@@ -40,21 +40,41 @@ text = "Back"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 90.0
-offset_top = 190.0
-offset_right = 234.0
-offset_bottom = 275.0
+offset_left = 79.0
+offset_top = 280.0
+offset_right = 223.0
+offset_bottom = 365.0
 theme_override_fonts/font = ExtResource("1_c2u1v")
 theme_override_font_sizes/font_size = 40
 text = "Music : 
 "
 
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 195.0
+offset_right = 222.0
+offset_bottom = 280.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 40
+text = "Name : 
+"
+
 [node name="artist_selector" type="OptionButton" parent="."]
 layout_mode = 0
-offset_left = 251.0
-offset_top = 186.0
-offset_right = 352.0
-offset_bottom = 234.0
+offset_left = 244.0
+offset_top = 275.0
+offset_right = 345.0
+offset_bottom = 323.0
+theme_override_fonts/font = ExtResource("1_c2u1v")
+theme_override_font_sizes/font_size = 30
+
+[node name="LineEdit" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 188.0
+offset_right = 418.0
+offset_bottom = 244.0
 theme_override_fonts/font = ExtResource("1_c2u1v")
 theme_override_font_sizes/font_size = 30
 

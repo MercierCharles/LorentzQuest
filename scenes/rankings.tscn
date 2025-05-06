@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpsqnej0527aq"]
+
+[ext_resource type="FontFile" uid="uid://caymmx2pqsuqc" path="res://assets/fonts/TypeLightSans-KV84p.otf" id="1_lxkls"]
+[ext_resource type="Script" uid="uid://ibcrfj243uqd" path="res://scripts/rankings.gd" id="1_tv3h5"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tv3h5")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1164.0
+offset_bottom = 659.0
+color = Color(0, 0.160784, 0.313726, 1)
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 53.0
+offset_top = 35.0
+offset_right = 348.0
+offset_bottom = 94.0
+theme_override_fonts/font = ExtResource("1_lxkls")
+theme_override_font_sizes/font_size = 40
+text = "Coulomb Force"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 37.0
+offset_right = 720.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("1_lxkls")
+theme_override_font_sizes/font_size = 40
+text = "Electric Field"
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 38.0
+offset_right = 1095.0
+offset_bottom = 97.0
+theme_override_fonts/font = ExtResource("1_lxkls")
+theme_override_font_sizes/font_size = 40
+text = "Magnetic Field"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 439.0
+offset_top = 527.0
+offset_right = 681.0
+offset_bottom = 627.0
+theme_override_fonts/font = ExtResource("1_lxkls")
+theme_override_font_sizes/font_size = 40
+text = "Back"
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 69.0
+offset_top = 106.0
+offset_right = 344.0
+offset_bottom = 502.0
+
+[node name="ScrollContainer1" type="ScrollContainer" parent="HBoxContainer1"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer1/ScrollContainer1"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 424.0
+offset_top = 106.0
+offset_right = 687.0
+offset_bottom = 499.0
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="HBoxContainer2"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer2/ScrollContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 801.0
+offset_top = 106.0
+offset_right = 1064.0
+offset_bottom = 501.0
+
+[node name="ScrollContainer3" type="ScrollContainer" parent="HBoxContainer3"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer3/ScrollContainer3"]
+layout_mode = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

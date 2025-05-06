@@ -1,48 +1,40 @@
+# GameManager.gd - À placer dans un autoload
 extends Node
 
-@onready var leaderboard_manager = $LeaderboardManager
-var current_level_name: String = ""
+# Référence à votre scène d'écran de saisie de nom d'utilisateur
+var username_input_scene = preload("res://scenes/high_score_dialog.tscn")
+var current_mini_game_id = -1
+var current_high_score = 0.0
+var username_input_instance = null
 
-func on_level_completed(level_name: String, score: int) -> void:
-	current_level_name = level_name
+func _ready():
+	# Connecter le signal du LeaderboardManager
+	LeaderboardManager_node.top_score_achieved.connect(_on_top_score_achieved)
 
-	# Vérifier que leaderboard_manager est bien initialisé
-	if leaderboard_manager != null:
-		var is_high = await is_high_score(level_name, score)
-		if is_high:
-			show_high_score_dialog(level_name, score)
-		else:
-			proceed_to_next_screen()
-	else:
-		print("Erreur : leaderboard_manager n'est pas initialisé.")
+# Appelé quand un score est assez élevé pour entrer dans le top
+func _on_top_score_achieved(mini_game_id, score):
+	current_mini_game_id = mini_game_id
+	current_high_score = score
+	
+	# Créer l'écran de saisie du nom d'utilisateur
+	username_input_instance = username_input_scene.instantiate()
+	get_tree().current_scene.add_child(username_input_instance)
+	
+	# Configurer l'écran avec le score et le niveau
+	username_input_instance.setup(score, LeaderboardManager_node.mini_games[mini_game_id])
+	
+	# Connecter le signal pour recevoir le nom d'utilisateur
+	username_input_instance.username_submitted.connect(_on_username_submitted)
 
-	var is_high = await is_high_score(level_name, score)
-	if is_high:
-		show_high_score_dialog(level_name, score)
-	else:
-		proceed_to_next_screen()
-
-
-func is_high_score(level_name: String, score: int) -> bool:
-	var scores = await leaderboard_manager.get_scores(level_name)
-	if scores.size() < 5:
-		return true
-	var lowest_score = scores[scores.size() - 1].score
-	return score > lowest_score
-
-
-func show_high_score_dialog(level_name: String, score: int) -> void:
-	var high_score_dialog = preload("res://scenes/high_score_dialog.tscn").instantiate()
-	high_score_dialog.setup(score, level_name)
-	high_score_dialog.username_submitted.connect(_on_username_submitted)
-	get_tree().current_scene.add_child(high_score_dialog)
-
-
-func _on_username_submitted(username: String, score: int) -> void:
-	await leaderboard_manager.send_score_to_firebase(username, current_level_name, score)
-	proceed_to_next_screen()
-
-
-func proceed_to_next_screen():
-	# À toi de définir le comportement
-	print("Passage à l’écran suivant.")
+# Appelé quand l'utilisateur soumet son nom
+func _on_username_submitted(username, score):
+	# Assurez-vous que le score est le même que celui stocké
+	assert(score == current_high_score)
+	
+	# Soumettre le score au leaderboard
+	LeaderboardManager_node.submit_score(current_mini_game_id, username, current_high_score)
+	
+	# Réinitialiser les variables
+	current_mini_game_id = -1
+	current_high_score = 0.0
+	username_input_instance = null
