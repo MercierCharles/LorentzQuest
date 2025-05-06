@@ -1,5 +1,5 @@
 extends CharacterBody2D
-signal hit_electron(electron)  # Signal modifié pour inclure l'électron touché
+signal hit_electron(electron)  # Signal émis lors de la collision avec un électron
 
 const SPEED = 600.0
 const CONTROLLER_DEADZONE = 0.2  # Seuil pour ignorer les petits mouvements du joystick
@@ -85,7 +85,7 @@ func _physics_process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if collider.is_in_group("electrons"):
-			# Émettre le signal avec l'électron touché
+			# Simplement émettre le signal avec l'électron touché
 			hit_electron.emit(collider)
 	
 	# Limiter la position du proton aux limites de l'écran

@@ -14,8 +14,7 @@ extends Node2D
 
 var survival_time = 0.0 # Time in seconds
 var is_running = false # Game starts paused
-var collision_timer: Timer
-var collision_in_progress = false # Flag to track if a collision is already being processed
+var collision_in_progress = false # Éviter les collisions multiples
 
 func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
@@ -44,17 +43,6 @@ func _ready():
 		proton.hit_electron.disconnect(_on_proton_hit_electron)
 	proton.hit_electron.connect(_on_proton_hit_electron)
 	
-	# Création du timer pour la collision
-	if not has_node("CollisionTimer"):
-		collision_timer = Timer.new()
-		collision_timer.name = "CollisionTimer"
-		collision_timer.one_shot = true
-		collision_timer.wait_time = 0.5
-		collision_timer.timeout.connect(_on_collision_timer_timeout)
-		add_child(collision_timer)
-	else:
-		collision_timer = get_node("CollisionTimer")
-	
 	# Reset theory screen if coming from menu
 	if GameState.entering_from_menu:
 		GameState.has_seen_theory = false
@@ -78,42 +66,22 @@ func _process(delta):
 		electron_count_label.text = "Electrons: " + str(electron_count)
 
 func _on_proton_hit_electron(electron_node):
-	# Si une collision est déjà en cours de traitement, ignorer les suivantes
+	# Si une collision a déjà été traitée, ignorer
 	if collision_in_progress:
 		return
 		
-	# Marquer qu'une collision est en cours
+	# Marquer collision comme en cours pour éviter doublons
 	collision_in_progress = true
 	
 	# Arrêter le timer immédiatement
 	is_running = false
 	
-	# Rendre le proton invisible
-	proton.visible = false
-	
-	# Rendre l'électron spécifique invisible
-	if electron_node != null:
-		electron_node.visible = false
-	
 	# Jouer le son de collision
 	if collision_sound and not collision_sound.playing:
 		collision_sound.play()
 	
-	# Désactiver les collisions du proton pour empêcher d'autres détections
-	proton.set_collision_layer_value(1, false)
-	proton.set_collision_mask_value(1, false)
-	
-	# Lancer le timer pour retarder le game_over
-	if collision_timer:
-		collision_timer.start()
-
-func _on_collision_timer_timeout():
-	# Assurer que le jeu n'est pas déjà en état game_over
-	if not game_over_ui.visible:
-		game_over()
-	
-	# Réinitialiser le flag de collision
-	collision_in_progress = false
+	# Appeler game_over directement
+	game_over()
 
 func _show_leaderboard(scores):
 	print("Top scores:")
@@ -151,32 +119,31 @@ func start_game():
 	time_label.text = "Time: 0.00 s"
 	electron_count_label.text = "Electrons: 0"
 	
-	# Rendre le proton visible
+	# S'assurer que tout est visible et fonctionnel
 	proton.visible = true
-	
-	# Réactiver les collisions du proton
 	proton.set_collision_layer_value(1, true)
 	proton.set_collision_mask_value(1, true)
 
 func game_over():
-	# Vérifier si l'interface de game over est déjà visible
+	# Vérifier si l'interface de game over est déjà visible pour éviter doublons
 	if game_over_ui.visible:
 		return
 		
-	get_tree().paused = true # Pause the game
+	# Pause le jeu
+	get_tree().paused = true
 	
 	# Arrêter le spawner d'électrons
 	electron_spawner.stop()
 	
 	# Vérifier si le score est dans le top 5
 	LeaderboardManager_node.check_score(0, survival_time)
-	# Vous pouvez aussi afficher le top 5 actuel
 	LeaderboardManager_node.get_top_scores(0)
 	LeaderboardManager_node.submit_score(0, GameState.username, survival_time)
 	
 	if survival_time > GameState.best_time_CoulombForce:
 		GameState.best_time_CoulombForce = survival_time
 	
+	# Afficher l'écran de game over
 	game_over_ui.visible = true
 	lost_label.text = "Time: %.2f s" % survival_time
 	fail_label.text = "Record: %.2f s" % GameState.best_time_CoulombForce
@@ -187,12 +154,4 @@ func _on_play_button_pressed() -> void:
 
 func restart_game():
 	game_over_ui.visible = false
-	
-	# Rendre le proton visible s'il ne l'est pas
-	proton.visible = true
-	
-	# Réinitialiser le timer de collision s'il est actif
-	if collision_timer.is_stopped() == false:
-		collision_timer.stop()
-	
 	start_game()
