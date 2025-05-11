@@ -1,11 +1,18 @@
 extends Control
-
 @onready var line_edit: LineEdit = $ColorRect2/LineEdit
 @onready var color_rect_2: ColorRect = $ColorRect2
 @onready var button_play: Button = $ButtonPlay
 @onready var button_options: Button = $ButtonOptions
-
+@onready var label: Label = $Label
+@onready var proton: Sprite2D = $Proton
 var username_submitted = false
+
+# Variables pour l'effet de pulse
+var pulse_time: float = 0.0
+var pulse_speed: float = 3
+var pulse_amplitude: float = 0.05
+var base_scale: Vector2 = Vector2(1.0, 1.0)
+var base_scale_proton: Vector2 = Vector2(0.1, 0.1)
 
 func _ready():
 	# Configuration des éléments d'interface
@@ -32,8 +39,18 @@ func _ready():
 		button_options.visible = true
 		button_play.grab_focus()
 		username_submitted = true
-
-func _process(_delta):
+		
+	# Sauvegarde de l'échelle initiale des éléments
+	if label:
+		base_scale = label.scale
+		# Définir le pivot au centre du label pour que la pulsation soit centrée
+		label.pivot_offset = label.size / 2
+	
+	if proton:
+		# Définir le pivot au centre du sprite pour que la pulsation soit centrée
+		proton.pivot_offset = proton.texture.get_size() / 2
+	
+func _process(delta):
 	# Gestion des entrées de manette
 	if Input.is_action_just_pressed("ui_accept"):
 		# Si on est sur le LineEdit
@@ -48,13 +65,22 @@ func _process(_delta):
 		# Si on est sur le bouton Options
 		elif button_options.has_focus() and button_options.visible:
 			_on_button_options_pressed()
+	
+	# Effet de pulse scaling sur le titre
+	pulse_time += delta * pulse_speed
+	var pulse_factor = 1.0 + pulse_amplitude * sin(pulse_time)
+	
+	# Appliquer l'effet de pulse au Label et au Proton
+	if label:
+		label.scale = base_scale * pulse_factor
+	
+	if proton:
+		proton.scale = base_scale_proton * pulse_factor
 
 func _on_button_play_pressed() -> void:
-	print("Bouton Play pressé")
 	get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 func _on_button_options_pressed() -> void:
-	print("Bouton Options pressé")
 	get_tree().change_scene_to_file("res://scenes/options.tscn")
 
 func on_username_entered(text: String):

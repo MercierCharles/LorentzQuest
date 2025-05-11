@@ -92,7 +92,7 @@ theme_override_font_sizes/font_size = 40
 text = "Back
 "
 
-[node name="Button2" type="Button" parent="."]
+[node name="ButtonRanking" type="Button" parent="."]
 layout_mode = 0
 offset_left = 645.0
 offset_top = 488.0
@@ -107,4 +107,4 @@ text = "Rankings
 [connection signal="pressed" from="TextureButton2" to="." method="_on_texture_button_2_pressed"]
 [connection signal="pressed" from="TextureButton3" to="." method="_on_texture_button_3_pressed"]
 [connection signal="pressed" from="ButtonBack" to="." method="_on_button_back_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="ButtonRanking" to="." method="_on_button_ranking_pressed"]

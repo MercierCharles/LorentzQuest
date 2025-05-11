@@ -180,6 +180,8 @@ func _ready():
 		theory_ui.visible = true
 		theory_ui.process_mode = Node.PROCESS_MODE_ALWAYS
 		get_tree().paused = true
+		
+	_on_play_button_pressed()  #pas d'écran de théorie
 
 # Ajouter cette constante pour la section de départ
 const START_SECTION = preload("res://scenes/sections/section_prompt.tscn")
@@ -493,7 +495,7 @@ func game_over():
 	LeaderboardManager_node.submit_score(1,GameState.username,current_score)
 	if current_score > GameState.best_score_ElectricField :
 		GameState.best_score_ElectricField = current_score
-	game_over_ui.visible = true  
+	game_over_ui.show_game_over_ui() 
 	lost_label.text = "Score: %d" % current_score
 	fail_label.text = "Record: %d" % GameState.best_score_ElectricField
 

@@ -513,10 +513,6 @@ electron_scene = ExtResource("8_wmus4")
 
 [node name="SpawnTimer" type="Timer" parent="ElectronSpawner"]
 
-[node name="ElectronCountLabel" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-
 [node name="Proton" parent="." instance=ExtResource("8_ga2e2")]
 position = Vector2(576, 330)
 

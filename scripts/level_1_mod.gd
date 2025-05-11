@@ -9,7 +9,6 @@ extends Node2D
 @onready var play_button: Button = $TheoryUI/PlayButton
 @onready var electron_spawner: Node2D = $ElectronSpawner
 @onready var electron_container: Node2D = $ElectronContainer
-@onready var electron_count_label: Label = $ElectronCountLabel
 @onready var collision_sound: AudioStreamPlayer = $CollisionSound
 
 var survival_time = 0.0 # Time in seconds
@@ -55,6 +54,8 @@ func _ready():
 		theory_ui.visible = true
 		theory_ui.process_mode = Node.PROCESS_MODE_ALWAYS
 		get_tree().paused = true # Pause until player presses Play
+		
+	_on_play_button_pressed()  #pas d'écran de théorie
 
 func _process(delta):
 	if is_running:
@@ -63,7 +64,6 @@ func _process(delta):
 		
 		# Mise à jour du compteur d'électrons
 		var electron_count = electron_container.get_child_count()
-		electron_count_label.text = "Electrons: " + str(electron_count)
 
 func _on_proton_hit_electron(electron_node):
 	# Si une collision a déjà été traitée, ignorer
@@ -117,7 +117,6 @@ func start_game():
 	
 	# Réinitialiser les étiquettes
 	time_label.text = "Time: 0.00 s"
-	electron_count_label.text = "Electrons: 0"
 	
 	# S'assurer que tout est visible et fonctionnel
 	proton.visible = true
@@ -144,7 +143,7 @@ func game_over():
 		GameState.best_time_CoulombForce = survival_time
 	
 	# Afficher l'écran de game over
-	game_over_ui.visible = true
+	game_over_ui.show_game_over_ui()
 	lost_label.text = "Time: %.2f s" % survival_time
 	fail_label.text = "Record: %.2f s" % GameState.best_time_CoulombForce
 

@@ -18,7 +18,7 @@ offset_right = 1164.0
 offset_bottom = 659.0
 color = Color(0, 0.160784, 0.313726, 1)
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label1" type="Label" parent="."]
 layout_mode = 0
 offset_left = 53.0
 offset_top = 35.0
@@ -28,7 +28,7 @@ theme_override_fonts/font = ExtResource("1_lxkls")
 theme_override_font_sizes/font_size = 40
 text = "Coulomb Force"
 
-[node name="Label3" type="Label" parent="."]
+[node name="Label2" type="Label" parent="."]
 layout_mode = 0
 offset_left = 425.0
 offset_top = 37.0
@@ -38,7 +38,7 @@ theme_override_fonts/font = ExtResource("1_lxkls")
 theme_override_font_sizes/font_size = 40
 text = "Electric Field"
 
-[node name="Label4" type="Label" parent="."]
+[node name="Label3" type="Label" parent="."]
 layout_mode = 0
 offset_left = 800.0
 offset_top = 38.0
@@ -48,7 +48,7 @@ theme_override_fonts/font = ExtResource("1_lxkls")
 theme_override_font_sizes/font_size = 40
 text = "Magnetic Field"
 
-[node name="Button" type="Button" parent="."]
+[node name="ButtonBack" type="Button" parent="."]
 layout_mode = 0
 offset_left = 439.0
 offset_top = 527.0
@@ -100,4 +100,4 @@ horizontal_scroll_mode = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer3/ScrollContainer3"]
 layout_mode = 2
 
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="ButtonBack" to="." method="_on_button_pressed"]

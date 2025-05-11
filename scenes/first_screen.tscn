@@ -29,6 +29,11 @@ theme_override_fonts/font = ExtResource("1_7exyc")
 theme_override_font_sizes/font_size = 90
 text = "Lorentz Quest"
 
+[node name="Proton" type="Sprite2D" parent="Label"]
+position = Vector2(68, 47)
+scale = Vector2(0.105469, 0.105469)
+texture = ExtResource("2_w3c0a")
+
 [node name="ButtonPlay" type="Button" parent="."]
 layout_mode = 0
 offset_left = 434.0
@@ -48,11 +53,6 @@ offset_bottom = 554.0
 theme_override_fonts/font = ExtResource("1_7exyc")
 theme_override_font_sizes/font_size = 60
 text = "Options"
-
-[node name="Proton" type="Sprite2D" parent="."]
-position = Vector2(359, 98)
-scale = Vector2(0.105469, 0.105469)
-texture = ExtResource("2_w3c0a")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 0
