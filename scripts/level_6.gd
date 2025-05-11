@@ -127,9 +127,6 @@ func _create_boundaries():
 func _ready():
 	var music
 	
-	_create_transformation_line(100)
-	_create_transformation_line(1000)
-	_create_transformation_line(3000)
 	if GameState.selected_artist == "Bad Bunny" :
 		music = load("res://assets/music/Bad Bunny/BAD BUNNY x JHAY CORTEZ - CÓMO SE SIENTE REMIX  LAS QUE NO IBAN A SALIR (Audio Oficial).mp3")
 	elif GameState.selected_artist == "Morad" :

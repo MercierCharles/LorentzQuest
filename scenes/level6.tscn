@@ -494,7 +494,6 @@ text = "Norm"
 metadata/_edit_use_anchors_ = true
 
 [node name="ControlSliders" type="Control" parent="CanvasLayer/Sliders"]
-custom_minimum_size = Vector2(-0.76, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -47.0
@@ -538,6 +537,7 @@ step = 0.001
 metadata/_edit_use_anchors_ = true
 
 [node name="Joystick" type="Control" parent="CanvasLayer/Sliders/ControlSliders"]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 49.0

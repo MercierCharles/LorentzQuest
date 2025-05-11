@@ -19,8 +19,8 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	LeaderboardManager_node.top_scores_received.connect(_on_top_scores_received)
 	
-	# Connection du bouton de lecture déjà faite dans l'éditeur de scène, pas besoin de le faire ici
-	# play_button.pressed.connect(_on_play_button_pressed)
+	# Connect play button signal
+	play_button.pressed.connect(_on_play_button_pressed)
 	
 	# Chargement de la musique selon l'artiste sélectionné
 	var music
